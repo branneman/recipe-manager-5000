@@ -3,6 +3,7 @@ import { signOut } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import Login from '../login'
+import Recipes from '../recipes'
 
 import './index.css'
 
@@ -39,6 +40,7 @@ export default function App() {
             <p>Logged in as: {user.email}</p>
             <button onClick={() => signOut(auth)}>Log out</button>
           </header>
+          <Recipes />
         </div>
       )}
     </>
