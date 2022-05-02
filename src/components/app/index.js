@@ -1,11 +1,17 @@
 import { auth } from '../../util/firebase'
-import { signOut } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
+import Header from '../header'
+import Loader from '../loader'
 import Login from '../login'
 import Recipes from '../recipes'
 
 import './index.css'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Stack from '@mui/material/Stack'
 
 export default function App() {
   const [user, loading, error] = useAuthState(auth)
@@ -13,35 +19,31 @@ export default function App() {
   return (
     <>
       {/* Is authentication state is still being loaded? */}
-      {loading && <div className='layout__container'>Loading...</div>}
+      {loading && <Loader />}
 
       {/* AuthError returned by Firebase when trying to load the user */}
       {!loading && error && (
-        <>
-          Error:
-          <pre>
-            <code>{error.message}</code>
-          </pre>
-        </>
+        <Box sx={{ marginTop: 1 }}>
+          <Alert severity='error'>
+            <AlertTitle>Error:</AlertTitle>
+            <pre>
+              <code>{error.message}</code>
+            </pre>
+          </Alert>
+        </Box>
       )}
 
       {/* Not logged in */}
-      {!loading && !error && !user && (
-        <div className='layout__container'>
-          <Login />
-        </div>
-      )}
+      {!loading && !error && !user && <Login />}
 
       {/* Logged in */}
       {!loading && !error && user && (
-        <div>
-          <header>
-            {/* todo refactor into its own component */}
-            <p>Logged in as: {user.email}</p>
-            <button onClick={() => signOut(auth)}>Log out</button>
-          </header>
-          <Recipes />
-        </div>
+        <Container maxWidth='sm'>
+          <Stack justifyContent='flex-start' alignItems='stretch' spacing={2}>
+            <Header />
+            <Recipes />
+          </Stack>
+        </Container>
       )}
     </>
   )
