@@ -38,7 +38,7 @@ export default function App() {
 
       {/* Logged in */}
       {!loading && !error && user && (
-        <Container maxWidth='sm'>
+        <Container maxWidth='sm' sx={{ mt: 2 }}>
           <Stack justifyContent='flex-start' alignItems='stretch' spacing={2}>
             <Header />
             <Recipes />
