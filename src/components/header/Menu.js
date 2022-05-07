@@ -1,11 +1,16 @@
+import { auth } from '../../util/firebase'
+import { signOut } from 'firebase/auth'
+
 import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
-import RecipesIcon from '@mui/icons-material/RestaurantMenu'
+import LogoutIcon from '@mui/icons-material/Logout'
 import MealPlanIcon from '@mui/icons-material/MenuBook'
+import RecipesIcon from '@mui/icons-material/RestaurantMenu'
 import ShoppingListIcon from '@mui/icons-material/FormatListBulleted'
 
 export default function Menu(props) {
@@ -38,6 +43,14 @@ export default function Menu(props) {
             <ShoppingListIcon />
           </ListItemIcon>
           <ListItemText primary='Shopping list' />
+        </ListItem>
+
+        <Divider />
+        <ListItem button onClick={() => signOut(auth)}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary='Logout' />
         </ListItem>
       </List>
     </Box>
