@@ -10,7 +10,8 @@ import FilterListIcon from '@mui/icons-material/FilterList'
 import MealPlanIcon from '@mui/icons-material/CalendarMonth'
 
 export default function RecipeToolbar(props) {
-  const { numSelected } = props
+  const { numSelected, handleAddRecipe, handleDelete, handleAddToMealPlan } =
+    props
 
   return (
     <Toolbar
@@ -37,13 +38,14 @@ export default function RecipeToolbar(props) {
           >
             Recipes
           </Typography>
+
           <Tooltip title='Add recipe'>
-            <IconButton>
+            <IconButton onClick={handleAddRecipe}>
               <AddIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title='Filter'>
-            <IconButton>
+            <IconButton disabled>
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -61,13 +63,14 @@ export default function RecipeToolbar(props) {
           >
             {numSelected} selected
           </Typography>
+
           <Tooltip title='Add to meal plan'>
-            <IconButton>
+            <IconButton onClick={handleAddToMealPlan} disabled>
               <MealPlanIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title='Delete'>
-            <IconButton>
+            <IconButton onClick={handleDelete}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>

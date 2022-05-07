@@ -36,18 +36,19 @@ export default function RecipeTable(props) {
             <TableCell align='right'>Time</TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
           {recipes.map((recipe) => (
             <TableRow
               role='checkbox'
-              key={recipe.name}
-              selected={isSelected(recipe.name)}
+              key={recipe.id}
+              selected={isSelected(recipe.id)}
             >
               <TableCell padding='checkbox'>
                 <Checkbox
                   color='primary'
-                  checked={isSelected(recipe.name)}
-                  onClick={(event) => handleClick(event, recipe.name)}
+                  checked={isSelected(recipe.id)}
+                  onClick={(event) => handleClick(event, recipe.id)}
                 />
               </TableCell>
               <TableCell component='th' scope='row'>
