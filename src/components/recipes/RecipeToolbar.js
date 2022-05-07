@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import MealPlanIcon from '@mui/icons-material/CalendarMonth'
 
-export default function TableToolbar(props) {
+export default function RecipeToolbar(props) {
   const { numSelected } = props
 
   return (
@@ -26,41 +26,17 @@ export default function TableToolbar(props) {
         }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color='inherit'
-          variant='subtitle1'
-          component='div'
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant='h6'
-          id='tableTitle'
-          component='div'
-        >
-          Recipes
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
+      {/* Mode: Default */}
+      {numSelected === 0 && (
         <>
-          <Tooltip title='Add to meal plan'>
-            <IconButton>
-              <MealPlanIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='Delete'>
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      ) : (
-        <>
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            variant='h6'
+            id='tableTitle'
+            component='div'
+          >
+            Recipes
+          </Typography>
           <Tooltip title='Add recipe'>
             <IconButton>
               <AddIcon />
@@ -69,6 +45,30 @@ export default function TableToolbar(props) {
           <Tooltip title='Filter'>
             <IconButton>
               <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        </>
+      )}
+
+      {/* Mode: Selecting */}
+      {numSelected > 0 && (
+        <>
+          <Typography
+            sx={{ flex: '1 1 100%' }}
+            color='inherit'
+            variant='subtitle1'
+            component='div'
+          >
+            {numSelected} selected
+          </Typography>
+          <Tooltip title='Add to meal plan'>
+            <IconButton>
+              <MealPlanIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='Delete'>
+            <IconButton>
+              <DeleteIcon />
             </IconButton>
           </Tooltip>
         </>

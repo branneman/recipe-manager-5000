@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { auth } from '../../util/firebase'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import Loader from '../loader'
+import Loader from '../../components/loader'
 
 import Alert from '@mui/material/Alert'
 import Avatar from '@mui/material/Avatar'
@@ -15,6 +15,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import InputLabel from '@mui/material/InputLabel'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 
 import Logo from './logo.png'
 import Visibility from '@mui/icons-material/Visibility'
@@ -71,6 +72,9 @@ export default function Login() {
           variant='square'
           sx={{ width: 72, height: 72, mb: 2 }}
         />
+        <Typography variant='h5' component='h1' sx={{ mb: 2 }}>
+          RECIPE MANAGER 5000
+        </Typography>
 
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField

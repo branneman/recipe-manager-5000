@@ -3,8 +3,9 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import Header from '../header'
 import Loader from '../loader'
-import Login from '../login'
-import Recipes from '../recipes'
+
+import Login from '../../pages/login'
+import Recipes from '../../pages/recipes'
 
 import './index.css'
 import Alert from '@mui/material/Alert'
