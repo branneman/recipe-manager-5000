@@ -1,5 +1,7 @@
+import { Link as RouterLink } from 'react-router-dom'
 import { totalCalories, totalCarbs } from '../../util/recipe'
 
+import { grey } from '@mui/material/colors'
 import Checkbox from '@mui/material/Checkbox'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -8,10 +10,16 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
 
 export default function RecipeTable(props) {
-  const { recipes, selected, isSelected, handleClick, handleSelectAllClick } =
-    props
+  const {
+    recipes,
+    selected,
+    isSelected,
+    handleSelectOneClick,
+    handleSelectAllClick,
+  } = props
 
   return (
     <TableContainer component={Paper}>
@@ -31,8 +39,6 @@ export default function RecipeTable(props) {
               />
             </TableCell>
             <TableCell>Name</TableCell>
-            <TableCell align='right'>Kcal</TableCell>
-            <TableCell align='right'>Carbs</TableCell>
             <TableCell align='right'>Time</TableCell>
           </TableRow>
         </TableHead>
@@ -48,14 +54,19 @@ export default function RecipeTable(props) {
                 <Checkbox
                   color='primary'
                   checked={isSelected(recipe.id)}
-                  onClick={(event) => handleClick(event, recipe.id)}
+                  onClick={(event) => handleSelectOneClick(event, recipe.id)}
                 />
               </TableCell>
               <TableCell component='th' scope='row'>
-                {recipe.name}
+                <RouterLink
+                  to={`/recipe/${recipe.id}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Typography variant='subtitle2' sx={{ color: grey[900] }}>
+                    {recipe.name}
+                  </Typography>
+                </RouterLink>
               </TableCell>
-              <TableCell align='right'>{totalCalories(recipe)}</TableCell>
-              <TableCell align='right'>{totalCarbs(recipe)}</TableCell>
               <TableCell align='right'>{recipe.time}</TableCell>
             </TableRow>
           ))}

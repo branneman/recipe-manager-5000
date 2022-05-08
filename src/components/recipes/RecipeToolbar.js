@@ -45,9 +45,11 @@ export default function RecipeToolbar(props) {
             </IconButton>
           </Tooltip>
           <Tooltip title='Filter'>
-            <IconButton disabled>
-              <FilterListIcon />
-            </IconButton>
+            <span>
+              <IconButton disabled>
+                <FilterListIcon />
+              </IconButton>
+            </span>
           </Tooltip>
         </>
       )}

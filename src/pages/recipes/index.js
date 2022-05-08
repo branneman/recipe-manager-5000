@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import { compose, prop, uniqBy, sortBy } from 'ramda'
 import { db } from '../../util/firebase'
+import { activeSortedRecipes } from '../../util/recipe'
 import { ref, set, remove } from 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 
@@ -16,7 +16,7 @@ import Skeleton from '@mui/material/Skeleton'
 
 export default function Recipes() {
   const [recipesList, recipesLoading, error] = useListVals(ref(db, 'recipes'))
-  const recipes = compose(sortBy(prop('name')), uniqBy(prop('id')))(recipesList)
+  const recipes = activeSortedRecipes(recipesList)
 
   const [selected, setSelected] = useState([])
   const isSelected = (id) => selected.indexOf(id) !== -1
@@ -30,7 +30,7 @@ export default function Recipes() {
     setSelected([])
   }
 
-  const handleClick = (_event, id) => {
+  const handleSelectOneClick = (_event, id) => {
     const selectedIndex = selected.indexOf(id)
 
     const newSelected = () => {
@@ -60,25 +60,105 @@ export default function Recipes() {
     try {
       await set(ref(db, 'recipes/' + id), {
         id,
+        name: `Turkish Potato & Red Lentil Soup`,
+        time: 30,
+        tags: ['turkish', 'soup', 'dinner', 'lunch'],
         ingredients: [
           {
-            amount: '500',
-            calories: 750,
-            carbs: 120,
-            name: 'lamb',
-            unit: 'gram',
+            amount: '2',
+            unit: 'tsp',
+            name: 'vegetable oil',
+            enabled: true,
           },
           {
-            amount: '1000',
-            calories: 150,
-            carbs: 250,
-            name: 'spinach',
+            amount: '1',
+            unit: 'medium',
+            name: 'onion',
+            note: 'diced',
+            enabled: true,
+          },
+          {
+            amount: '1',
+            unit: 'liter',
+            name: 'water',
+            enabled: true,
+          },
+          {
+            amount: '1',
+            unit: '',
+            name: 'vegetable bouillon cube',
+            note: 'crushed',
+            enabled: true,
+          },
+          {
+            amount: '192',
             unit: 'gram',
+            name: 'dry red lentils',
+            note: 'rinsed',
+            enabled: true,
+          },
+          {
+            amount: '1',
+            unit: 'medium',
+            name: 'potato',
+            note: 'diced into 1cm cubes',
+            enabled: true,
+          },
+          {
+            amount: '1',
+            unit: 'tbsp',
+            name: 'paprika powder',
+            enabled: true,
+          },
+          {
+            amount: '2',
+            unit: 'tsp',
+            name: 'onion powder',
+            enabled: true,
+          },
+          {
+            amount: '2',
+            unit: 'tsp',
+            name: 'garlic powder',
+            enabled: true,
+          },
+          {
+            amount: '2',
+            unit: 'tsp',
+            name: 'balsamic vinegar',
+            enabled: true,
+          },
+          {
+            amount: '1/8',
+            unit: 'tsp',
+            name: 'black pepper',
+            note: 'ground, or more to taste',
+            enabled: true,
+          },
+          {
+            amount: '1',
+            unit: 'pinch',
+            name: 'salt',
+            note: 'or more to taste',
+            enabled: true,
           },
         ],
-        name: `Saag gosht lamb (${Math.floor(Math.random() * 99999)})`,
-        steps: ['first do this', 'then do that'],
-        tags: ['indian', 'curry', 'dinner'],
+        steps: [
+          {
+            text: 'Put a large pot on medium-high heat, add the oil. When hot, add the onions and sauté until golden, about in about 5 minutes.',
+            enabled: true,
+          },
+          {
+            text: 'Add in the remaining ingredients. Bring to a boil and then reduce to a simmer. Partially cover with a lid and cook for 15 minutes, or until the lentils and potato are cooked through.',
+            enabled: true,
+          },
+          {
+            text: 'Taste test, add more salt and pepper to taste, and add more water depending on how you like the consistency of your soup. Garnish, and enjoy!',
+            enabled: true,
+          },
+        ],
+        notes:
+          'Serve with 3 slices whole wheat bread, toasted.\n\nStore in an airtight container in the fridge for up to 4 days, or in the freezer for up to 2 months.',
       })
     } catch (err) {
       // todo: report error
@@ -132,7 +212,7 @@ export default function Recipes() {
             recipes={recipes}
             selected={selected}
             isSelected={isSelected}
-            handleClick={handleClick}
+            handleSelectOneClick={handleSelectOneClick}
             handleSelectAllClick={handleSelectAllClick}
           />
         </>

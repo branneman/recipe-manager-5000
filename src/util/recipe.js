@@ -1,3 +1,10 @@
+import { compose, prop, uniqBy, sortBy } from 'ramda'
+
+export const activeSortedRecipes = compose(
+  sortBy(prop('name')),
+  uniqBy(prop('id'))
+)
+
 export function totalCalories(recipe) {
   const calories = recipe.ingredients.reduce(
     (acc, curr) => acc + (curr.calories || 0),

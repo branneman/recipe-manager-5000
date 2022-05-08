@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { auth } from '../../util/firebase'
 import { signOut } from 'firebase/auth'
 
@@ -25,21 +25,21 @@ export default function Menu(props) {
       onKeyDown={toggleMenu}
     >
       <List>
-        <ListItem button to='recipes' component={Link}>
+        <ListItem button to='/recipes' component={RouterLink}>
           <ListItemIcon>
             <RecipesIcon />
           </ListItemIcon>
           <ListItemText primary='Recipes' />
         </ListItem>
 
-        <ListItem button to='meal-plans' component={Link}>
+        <ListItem button to='/meal-plans' component={RouterLink}>
           <ListItemIcon>
             <MealPlanIcon />
           </ListItemIcon>
           <ListItemText primary='Meal Plans' />
         </ListItem>
 
-        <ListItem button to='shopping-list' component={Link}>
+        <ListItem button to='/shopping-list' component={RouterLink}>
           <ListItemIcon>
             <ShoppingListIcon />
           </ListItemIcon>

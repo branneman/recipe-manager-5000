@@ -10,6 +10,7 @@ import '@fontsource/roboto/700.css'
 
 import App from './components/app'
 import Recipes from './pages/recipes'
+import Recipe from './pages/recipe'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -21,6 +22,7 @@ root.render(
         <Route path='/' element={<App />}>
           <Route index element={<Recipes />} />
           <Route path='recipes' element={<Recipes />} />
+          <Route path='recipe/:id' element={<Recipe />} />
           <Route path='meal-plans' element={<p>Meal Plans</p>} />
           <Route path='shopping-list' element={<p>Shopping List</p>} />
         </Route>
