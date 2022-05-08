@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { db } from '../../util/firebase'
-import { ref } from 'firebase/database'
+import { ref, update } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
 
 import Alert from '@mui/material/Alert'
@@ -19,6 +19,28 @@ export default function Recipe() {
   const { id } = useParams()
 
   const [recipe, loading, error] = useObjectVal(ref(db, 'recipes/' + id))
+
+  const toggleIngredient = (ingredientId) => async () => {
+    try {
+      update(ref(db), {
+        [`recipes/${id}/ingredients/${ingredientId}/enabled`]:
+          !recipe.ingredients[ingredientId].enabled,
+      })
+    } catch (err) {
+      // todo: report error
+    }
+  }
+
+  const toggleStep = (stepId) => async () => {
+    try {
+      update(ref(db), {
+        [`recipes/${id}/steps/${stepId}/enabled`]:
+          !recipe.steps[stepId].enabled,
+      })
+    } catch (err) {
+      // todo: report error
+    }
+  }
 
   return (
     <Paper sx={{ width: '100%', mb: 2 }}>
@@ -70,7 +92,12 @@ export default function Recipe() {
           </Typography>
           <List>
             {recipe.ingredients.map((ingredient, i) => (
-              <ListItem key={i} sx={{ p: 0 }}>
+              <ListItem
+                key={i}
+                sx={{ p: 0, cursor: 'pointer' }}
+                disabled={!ingredient.enabled}
+                onClick={toggleIngredient(i)}
+              >
                 {ingredient.amount} {ingredient.unit} {ingredient.name}
               </ListItem>
             ))}
@@ -89,7 +116,10 @@ export default function Recipe() {
                   pb: 1,
                   display: 'list-item',
                   listStyleType: 'decimal',
+                  cursor: 'pointer',
                 }}
+                disabled={!step.enabled}
+                onClick={toggleStep(i)}
               >
                 {step.text}
               </ListItem>
