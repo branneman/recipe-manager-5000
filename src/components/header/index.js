@@ -5,7 +5,7 @@ import { ref } from 'firebase/database'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useObjectVal } from 'react-firebase-hooks/database'
 
-import Menu from './Menu'
+import Menu from '../menu'
 
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'

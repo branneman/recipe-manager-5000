@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { auth } from '../../util/firebase'
 import { signOut } from 'firebase/auth'
 
@@ -24,21 +25,21 @@ export default function Menu(props) {
       onKeyDown={toggleMenu}
     >
       <List>
-        <ListItem button>
+        <ListItem button to='recipes' component={Link}>
           <ListItemIcon>
             <RecipesIcon />
           </ListItemIcon>
           <ListItemText primary='Recipes' />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button to='meal-plans' component={Link}>
           <ListItemIcon>
             <MealPlanIcon />
           </ListItemIcon>
           <ListItemText primary='Meal Plans' />
         </ListItem>
 
-        <ListItem button>
+        <ListItem button to='shopping-list' component={Link}>
           <ListItemIcon>
             <ShoppingListIcon />
           </ListItemIcon>
@@ -46,6 +47,7 @@ export default function Menu(props) {
         </ListItem>
 
         <Divider />
+
         <ListItem button onClick={() => signOut(auth)}>
           <ListItemIcon>
             <LogoutIcon />

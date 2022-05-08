@@ -1,11 +1,11 @@
+import { Outlet } from 'react-router-dom'
 import { auth } from '../../util/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
+import Login from '../../pages/login'
+
 import Header from '../header'
 import Loader from '../loader'
-
-import Login from '../../pages/login'
-import Recipes from '../../pages/recipes'
 
 import './index.css'
 import Alert from '@mui/material/Alert'
@@ -42,7 +42,7 @@ export default function App() {
         <Container maxWidth='sm' sx={{ mt: 2 }}>
           <Stack justifyContent='flex-start' alignItems='stretch' spacing={2}>
             <Header />
-            <Recipes />
+            <Outlet />
           </Stack>
         </Container>
       )}

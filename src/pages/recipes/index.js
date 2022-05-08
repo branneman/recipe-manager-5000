@@ -8,6 +8,9 @@ import { useListVals } from 'react-firebase-hooks/database'
 import RecipeTable from '../../components/recipes/RecipeTable'
 import RecipeToolbar from '../../components/recipes/RecipeToolbar'
 
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 
@@ -103,28 +106,37 @@ export default function Recipes() {
   const loading = recipesLoading || addLoading || deleteLoading
 
   return (
-    <main>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        {error && <>Error!</>}
-        {!error && loading && <Skeleton height={300} />}
-        {!error && !loading && recipes && (
-          <>
-            <RecipeToolbar
-              numSelected={selected.length}
-              handleAddRecipe={handleAddRecipe}
-              handleDelete={handleDelete}
-              handleAddToMealPlan={handleAddToMealPlan}
-            />
-            <RecipeTable
-              recipes={recipes}
-              selected={selected}
-              isSelected={isSelected}
-              handleClick={handleClick}
-              handleSelectAllClick={handleSelectAllClick}
-            />
-          </>
-        )}
-      </Paper>
-    </main>
+    <Paper sx={{ width: '100%', mb: 2 }}>
+      {error && (
+        <Box sx={{ marginTop: 1 }}>
+          <Alert severity='error'>
+            <AlertTitle>Error:</AlertTitle>
+            <pre>
+              <code>{error.message}</code>
+            </pre>
+          </Alert>
+        </Box>
+      )}
+
+      {!error && loading && <Skeleton height={300} />}
+
+      {!error && !loading && recipes && (
+        <>
+          <RecipeToolbar
+            numSelected={selected.length}
+            handleAddRecipe={handleAddRecipe}
+            handleDelete={handleDelete}
+            handleAddToMealPlan={handleAddToMealPlan}
+          />
+          <RecipeTable
+            recipes={recipes}
+            selected={selected}
+            isSelected={isSelected}
+            handleClick={handleClick}
+            handleSelectAllClick={handleSelectAllClick}
+          />
+        </>
+      )}
+    </Paper>
   )
 }
