@@ -1,7 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom'
-import { totalCalories, totalCarbs } from '../../util/recipe'
 
-import { grey } from '@mui/material/colors'
 import Checkbox from '@mui/material/Checkbox'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -62,7 +60,7 @@ export default function RecipeTable(props) {
                   to={`/recipe/${recipe.id}`}
                   style={{ textDecoration: 'none' }}
                 >
-                  <Typography variant='subtitle2' sx={{ color: grey[900] }}>
+                  <Typography variant='subtitle2' color='text.primary'>
                     {recipe.name}
                   </Typography>
                 </RouterLink>
