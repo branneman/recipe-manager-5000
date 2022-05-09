@@ -62,69 +62,81 @@ export default function Recipe() {
           <Typography variant='h6' sx={{ mb: 1 }}>
             {recipe.name}
           </Typography>
-          <Box sx={{ mb: 2 }}>
-            <Chip
-              icon={
-                <TimeIcon
-                  fontSize='small'
-                  sx={{ mr: 0.5, verticalAlign: 'bottom' }}
+          {recipe.time && recipe.tags && recipe.tags.length && (
+            <Box sx={{ mb: 2 }}>
+              {recipe.time && (
+                <Chip
+                  icon={
+                    <TimeIcon
+                      fontSize='small'
+                      sx={{ mr: 0.5, verticalAlign: 'bottom' }}
+                    />
+                  }
+                  label={`${recipe.time}min`}
+                  size='small'
+                  variant='outlined'
+                  color='primary'
+                  sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
                 />
-              }
-              label={`${recipe.time}min`}
-              size='small'
-              variant='outlined'
-              color='primary'
-              sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
-            />
-            {recipe.tags.map((tag, i) => (
-              <Chip
-                key={i}
-                label={tag}
-                size='small'
-                variant='outlined'
-                sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
-              />
-            ))}
-          </Box>
+              )}
+              {recipe.tags.map((tag, i) => (
+                <Chip
+                  key={i}
+                  label={tag}
+                  size='small'
+                  variant='outlined'
+                  sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
+                />
+              ))}
+            </Box>
+          )}
 
-          <Typography variant='subtitle2' sx={{ mt: 3 }}>
-            Ingredients
-          </Typography>
-          <List>
-            {recipe.ingredients.map((ingredient, i) => (
-              <ListItem
-                key={i}
-                sx={{ p: 0, cursor: 'pointer' }}
-                disabled={!ingredient.enabled}
-                onClick={toggleIngredient(i)}
-              >
-                {ingredient.amount} {ingredient.unit} {ingredient.name}
-              </ListItem>
-            ))}
-          </List>
+          {recipe.ingredients && recipe.ingredients.length && (
+            <>
+              <Typography variant='subtitle2' sx={{ mt: 3 }}>
+                Ingredients
+              </Typography>
+              <List>
+                {recipe.ingredients.map((ingredient, i) => (
+                  <ListItem
+                    key={i}
+                    sx={{ p: 0, cursor: 'pointer' }}
+                    disabled={!ingredient.enabled}
+                    onClick={toggleIngredient(i)}
+                  >
+                    {ingredient.amount} {ingredient.unit} {ingredient.name}
+                  </ListItem>
+                ))}
+              </List>
+            </>
+          )}
 
-          <Typography variant='subtitle2' sx={{ mt: 2, mb: 0 }}>
-            Steps
-          </Typography>
-          <List>
-            {recipe.steps.map((step, i) => (
-              <ListItem
-                key={i}
-                sx={{
-                  ml: 2,
-                  p: 0,
-                  pb: 1,
-                  display: 'list-item',
-                  listStyleType: 'decimal',
-                  cursor: 'pointer',
-                }}
-                disabled={!step.enabled}
-                onClick={toggleStep(i)}
-              >
-                {step.text}
-              </ListItem>
-            ))}
-          </List>
+          {recipe.steps && recipe.steps.length && (
+            <>
+              <Typography variant='subtitle2' sx={{ mt: 2, mb: 0 }}>
+                Steps
+              </Typography>
+              <List>
+                {recipe.steps.map((step, i) => (
+                  <ListItem
+                    key={i}
+                    sx={{
+                      ml: 2,
+                      p: 0,
+                      pb: 1,
+                      display: 'list-item',
+                      listStyleType: 'decimal',
+                      cursor: 'pointer',
+                    }}
+                    disabled={!step.enabled}
+                    onClick={toggleStep(i)}
+                  >
+                    {step.text}
+                  </ListItem>
+                ))}
+              </List>
+            </>
+          )}
 
           {recipe.notes && (
             <>

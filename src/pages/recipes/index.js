@@ -52,119 +52,20 @@ export default function Recipes() {
     setSelected(newSelected())
   }
 
+  const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [addLoading, setAddLoading] = useState(false)
-  const handleAddRecipe = async () => {
+  const handleAddDialogSubmit = async (name) => {
     setAddLoading(true)
 
     const id = uuid()
     try {
-      await set(ref(db, 'recipes/' + id), {
-        id,
-        name: `Turkish Potato & Red Lentil Soup`,
-        time: 30,
-        tags: ['turkish', 'soup', 'dinner', 'lunch'],
-        ingredients: [
-          {
-            amount: '2',
-            unit: 'tsp',
-            name: 'vegetable oil',
-            enabled: true,
-          },
-          {
-            amount: '1',
-            unit: 'medium',
-            name: 'onion',
-            note: 'diced',
-            enabled: true,
-          },
-          {
-            amount: '1',
-            unit: 'liter',
-            name: 'water',
-            enabled: true,
-          },
-          {
-            amount: '1',
-            unit: '',
-            name: 'vegetable bouillon cube',
-            note: 'crushed',
-            enabled: true,
-          },
-          {
-            amount: '192',
-            unit: 'gram',
-            name: 'dry red lentils',
-            note: 'rinsed',
-            enabled: true,
-          },
-          {
-            amount: '1',
-            unit: 'medium',
-            name: 'potato',
-            note: 'diced into 1cm cubes',
-            enabled: true,
-          },
-          {
-            amount: '1',
-            unit: 'tbsp',
-            name: 'paprika powder',
-            enabled: true,
-          },
-          {
-            amount: '2',
-            unit: 'tsp',
-            name: 'onion powder',
-            enabled: true,
-          },
-          {
-            amount: '2',
-            unit: 'tsp',
-            name: 'garlic powder',
-            enabled: true,
-          },
-          {
-            amount: '2',
-            unit: 'tsp',
-            name: 'balsamic vinegar',
-            enabled: true,
-          },
-          {
-            amount: '1/8',
-            unit: 'tsp',
-            name: 'black pepper',
-            note: 'ground, or more to taste',
-            enabled: true,
-          },
-          {
-            amount: '1',
-            unit: 'pinch',
-            name: 'salt',
-            note: 'or more to taste',
-            enabled: true,
-          },
-        ],
-        steps: [
-          {
-            text: 'Put a large pot on medium-high heat, add the oil. When hot, add the onions and sauté until golden, about in about 5 minutes.',
-            enabled: true,
-          },
-          {
-            text: 'Add in the remaining ingredients. Bring to a boil and then reduce to a simmer. Partially cover with a lid and cook for 15 minutes, or until the lentils and potato are cooked through.',
-            enabled: true,
-          },
-          {
-            text: 'Taste test, add more salt and pepper to taste, and add more water depending on how you like the consistency of your soup. Garnish, and enjoy!',
-            enabled: true,
-          },
-        ],
-        notes:
-          'Serve with 3 slices whole wheat bread, toasted.\n\nStore in an airtight container in the fridge for up to 4 days, or in the freezer for up to 2 months.',
-      })
+      await set(ref(db, 'recipes/' + id), { id, name })
     } catch (err) {
       // todo: report error
     }
 
     setAddLoading(false)
+    window.location.hash = '/recipe/' + id
   }
 
   const [deleteLoading, setDeleteLoading] = useState(false)
@@ -204,7 +105,9 @@ export default function Recipes() {
         <>
           <RecipeToolbar
             numSelected={selected.length}
-            handleAddRecipe={handleAddRecipe}
+            addDialogOpen={addDialogOpen}
+            setAddDialogOpen={setAddDialogOpen}
+            handleAddDialogSubmit={handleAddDialogSubmit}
             handleDelete={handleDelete}
             handleAddToMealPlan={handleAddToMealPlan}
           />

@@ -9,9 +9,17 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import MealPlanIcon from '@mui/icons-material/CalendarMonth'
 
+import RecipeAddDialog from './RecipeAddDialog'
+
 export default function RecipeToolbar(props) {
-  const { numSelected, handleAddRecipe, handleDelete, handleAddToMealPlan } =
-    props
+  const {
+    numSelected,
+    addDialogOpen,
+    setAddDialogOpen,
+    handleAddDialogSubmit,
+    handleDelete,
+    handleAddToMealPlan,
+  } = props
 
   return (
     <Toolbar
@@ -39,11 +47,17 @@ export default function RecipeToolbar(props) {
             Recipes
           </Typography>
 
+          <RecipeAddDialog
+            open={addDialogOpen}
+            setAddDialogOpen={setAddDialogOpen}
+            handleSubmit={handleAddDialogSubmit}
+          />
           <Tooltip title='Add recipe'>
-            <IconButton onClick={handleAddRecipe}>
+            <IconButton onClick={() => setAddDialogOpen(true)}>
               <AddIcon />
             </IconButton>
           </Tooltip>
+
           <Tooltip title='Filter'>
             <span>
               <IconButton disabled>
