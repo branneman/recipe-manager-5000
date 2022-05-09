@@ -65,7 +65,7 @@ export default function Recipes() {
     }
 
     setAddLoading(false)
-    window.location.hash = '/recipe/' + id
+    window.location.hash = '/recipe/edit/' + id
   }
 
   const [deleteLoading, setDeleteLoading] = useState(false)

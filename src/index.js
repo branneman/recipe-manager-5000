@@ -12,6 +12,7 @@ import '@fontsource/roboto/700.css'
 import App from './components/app'
 import Recipes from './pages/recipes'
 import Recipe from './pages/recipe'
+import EditRecipe from './pages/recipe/edit'
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } })
 
@@ -27,6 +28,7 @@ root.render(
             <Route index element={<Recipes />} />
             <Route path='recipes' element={<Recipes />} />
             <Route path='recipe/:id' element={<Recipe />} />
+            <Route path='recipe/edit/:id' element={<EditRecipe />} />
             <Route path='meal-plans' element={<p>Meal Plans</p>} />
             <Route path='shopping-list' element={<p>Shopping List</p>} />
           </Route>

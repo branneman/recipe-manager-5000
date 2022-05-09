@@ -3,7 +3,6 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import TextField from '@mui/material/TextField'
 
@@ -15,7 +14,6 @@ export default function RecipeAddDialog(props) {
 
     const form = new FormData(event.currentTarget)
     const name = form.get('name')
-
     if (!name) return onCancel()
 
     setAddDialogOpen(false)
@@ -31,15 +29,13 @@ export default function RecipeAddDialog(props) {
       <Box component='form' onSubmit={onSubmit} noValidate>
         <DialogTitle>Add recipe</DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter a name:</DialogContentText>
           <TextField
-            autoFocus
-            margin='dense'
             id='name'
             name='name'
-            label='name'
+            label='Name'
             fullWidth
             variant='standard'
+            margin='dense'
           />
         </DialogContent>
         <DialogActions>
