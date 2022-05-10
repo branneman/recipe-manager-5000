@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom'
 import { auth } from '../../util/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import pkg from '../../../package.json'
 
 import Login from '../../pages/login'
-
 import Header from '../header'
 import Loader from '../loader'
+import UpdateCheck from '../update-check'
 
 import './index.css'
 import Alert from '@mui/material/Alert'
@@ -40,10 +41,12 @@ export default function App() {
       {/* Logged in */}
       {!loading && !error && user && (
         <Container maxWidth='sm' sx={{ mt: 2 }}>
-          <Stack justifyContent='flex-start' alignItems='stretch' spacing={2}>
-            <Header />
-            <Outlet />
-          </Stack>
+          <UpdateCheck appVersion={pkg.version}>
+            <Stack justifyContent='flex-start' alignItems='stretch' spacing={2}>
+              <Header version={pkg.version} />
+              <Outlet />
+            </Stack>
+          </UpdateCheck>
         </Container>
       )}
     </>

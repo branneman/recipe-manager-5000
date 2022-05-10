@@ -3,9 +3,9 @@ import { auth } from '../../util/firebase'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
 import Loader from '../../components/loader'
+import Logo from '../../components/logo'
 
 import Alert from '@mui/material/Alert'
-import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -17,7 +17,6 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-import Logo from './logo.png'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
@@ -66,12 +65,7 @@ export default function Login() {
           alignItems: 'center',
         }}
       >
-        <Avatar
-          alt='RECIPE MANAGER 5000'
-          src={Logo}
-          variant='square'
-          sx={{ width: 72, height: 72, mb: 2 }}
-        />
+        <Logo size={72} sx={{ mb: 2 }} />
         <Typography variant='h5' component='h1' sx={{ mb: 2 }}>
           RECIPE MANAGER 5000
         </Typography>
