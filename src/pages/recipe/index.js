@@ -69,23 +69,27 @@ export default function Recipe() {
 
       {!error && !loading && recipe && (
         <Box sx={{ p: 2 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={1}>
+          <Grid container spacing={1}>
+            <Grid item xs={2}>
               <Tooltip title='Back to Recipes'>
-                <IconButton to='/recipes' component={RouterLink}>
-                  <BackIcon />
+                <IconButton
+                  to='/recipes'
+                  component={RouterLink}
+                  sx={{ ml: -1 }}
+                >
+                  <BackIcon fontSize='small' />
                 </IconButton>
               </Tooltip>
             </Grid>
-            <Grid item xs={9}>
-              <Typography variant='h6' sx={{ mt: 0.5, mb: 1 }}>
+            <Grid item xs={8}>
+              <Typography variant='h6' sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
                 {recipe.name}
               </Typography>
             </Grid>
             <Grid item xs={2} sx={{ textAlign: 'right' }}>
               <Tooltip title='Edit recipe'>
                 <IconButton onClick={redirectToEdit}>
-                  <EditIcon />
+                  <EditIcon fontSize='small' />
                 </IconButton>
               </Tooltip>
             </Grid>
@@ -155,6 +159,7 @@ export default function Recipe() {
                       ml: 2,
                       p: 0,
                       pb: 1,
+                      pr: 1,
                       display: 'list-item',
                       listStyleType: 'decimal',
                       cursor: 'pointer',

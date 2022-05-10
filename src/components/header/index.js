@@ -1,10 +1,5 @@
 import { useState } from 'react'
 
-import { auth, db } from '../../util/firebase'
-import { ref } from 'firebase/database'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { useObjectVal } from 'react-firebase-hooks/database'
-
 import Logo from '../logo'
 import Menu from '../menu'
 
@@ -19,10 +14,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 export default function Header(props) {
   const { version } = props
-
-  const [user] = useAuthState(auth)
-  const r = ref(db, 'users/' + user.uid)
-  const [userData, loading, error] = useObjectVal(r)
 
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = (event) => {
@@ -40,14 +31,18 @@ export default function Header(props) {
       <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>
         <Menu toggleMenu={toggleMenu} />
       </Drawer>
-      <Stack direction='row' justifyContent='space-between' spacing={2}>
+      <Stack direction='row' justifyContent='flex-start' spacing={2}>
         <Tooltip title='Menu'>
           <IconButton onClick={toggleMenu}>
             <MenuIcon />
           </IconButton>
         </Tooltip>
 
-        <Stack direction='row'>
+        <Stack
+          direction='row'
+          sx={{ cursor: 'pointer' }}
+          onClick={() => (window.location.hash = '/')}
+        >
           <Logo size={24} sx={{ mt: 0.75, mr: 1 }} />
           <Typography sx={{ pt: 1 }}>
             RECIPE MANAGER 5000
@@ -57,10 +52,6 @@ export default function Header(props) {
             </Typography>
           </Typography>
         </Stack>
-
-        <Typography sx={{ pt: 1 }}>
-          {!error && !loading && userData && <>Hi {userData.name}</>}
-        </Typography>
       </Stack>
     </>
   )
