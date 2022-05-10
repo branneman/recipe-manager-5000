@@ -6,7 +6,8 @@
     "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "deploy": "npm run build && gh-pages -d build"
+    "postversion": "git push --tags",
+    "deploy": "npm version minor -m \"chore: Release version %s\" && npm run build && gh-pages -d build"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
