@@ -13,6 +13,7 @@ import App from './components/app'
 import Recipes from './pages/recipes'
 import Recipe from './pages/recipe'
 import EditRecipe from './pages/recipe/edit'
+import ShoppingList from './pages/shopping-list'
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } })
 
@@ -30,7 +31,7 @@ root.render(
             <Route path='recipe/:id' element={<Recipe />} />
             <Route path='recipe/edit/:id' element={<EditRecipe />} />
             <Route path='meal-plans' element={<p>Meal Plans</p>} />
-            <Route path='shopping-list' element={<p>Shopping List</p>} />
+            <Route path='shopping-list' element={<ShoppingList />} />
           </Route>
           <Route path='*' element={<p>404 Page Not Found</p>} />
         </Routes>

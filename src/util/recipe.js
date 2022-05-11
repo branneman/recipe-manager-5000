@@ -1,7 +1,13 @@
-import { compose, prop, uniqBy, sortBy } from 'ramda'
+import { compose, prop, uniqBy, sort, sortBy, ascend } from 'ramda'
 
 export const activeSortedRecipes = compose(
   sortBy(prop('name')),
+  uniqBy(prop('id'))
+)
+
+// Luxon implements DateTime#valueOf to return the epoch timestamp as int
+export const activeSortedShoppingList = compose(
+  sort(ascend(prop('created'))),
   uniqBy(prop('id'))
 )
 
