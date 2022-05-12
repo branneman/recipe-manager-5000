@@ -2,27 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
-
 import App from './components/app'
+import Auth from './components/auth'
 import Recipes from './pages/recipes'
 import Recipe from './pages/recipe'
 import EditRecipe from './pages/recipe/edit'
 import ShoppingList from './pages/shopping-list'
 
-const darkTheme = createTheme({ palette: { mode: 'dark' } })
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <Auth>
       <HashRouter>
         <Routes>
           <Route path='/' element={<App />}>
@@ -36,6 +27,6 @@ root.render(
           <Route path='*' element={<p>404 Page Not Found</p>} />
         </Routes>
       </HashRouter>
-    </ThemeProvider>
+    </Auth>
   </React.StrictMode>
 )

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 
 export default function Header(props) {
-  const { version } = props
+  const { version, user } = props
 
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = (event) => {
@@ -29,7 +29,7 @@ export default function Header(props) {
   return (
     <>
       <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>
-        <Menu toggleMenu={toggleMenu} />
+        <Menu user={user} toggleMenu={toggleMenu} />
       </Drawer>
       <Stack direction='row' justifyContent='flex-start' spacing={2}>
         <Tooltip title='Menu'>
