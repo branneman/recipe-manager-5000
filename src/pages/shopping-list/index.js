@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { db } from '../../util/firebase'
-import { activeSortedShoppingList } from '../../util/recipe'
 import { ref, set, remove } from 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
+import { activeSortedShoppingList } from '../../util/sorting'
 import { find, propEq } from 'ramda'
 import { DateTime } from 'luxon'
 

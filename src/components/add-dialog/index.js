@@ -6,8 +6,8 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import TextField from '@mui/material/TextField'
 
-export default function RecipeAddDialog(props) {
-  const { open, setAddDialogOpen, handleSubmit } = props
+export default function AddDialog(props) {
+  const { title, open, setAddDialogOpen, handleSubmit } = props
 
   const onSubmit = (event) => {
     event.preventDefault()
@@ -27,7 +27,7 @@ export default function RecipeAddDialog(props) {
   return (
     <Dialog open={open} onClose={onCancel}>
       <Box component='form' onSubmit={onSubmit} noValidate>
-        <DialogTitle>Add recipe</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <TextField
             id='name'

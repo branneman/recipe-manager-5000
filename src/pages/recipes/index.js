@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { db } from '../../util/firebase'
-import { activeSortedRecipes } from '../../util/recipe'
+import { activeSortedRecipes } from '../../util/sorting'
 import { ref, set, remove } from 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 

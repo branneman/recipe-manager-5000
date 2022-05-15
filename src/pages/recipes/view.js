@@ -21,7 +21,7 @@ import BackIcon from '@mui/icons-material/ArrowBackIosNew'
 import EditIcon from '@mui/icons-material/Edit'
 import TimeIcon from '@mui/icons-material/AccessTime'
 
-export default function Recipe() {
+export default function ViewRecipe() {
   const { id } = useParams()
 
   const [recipe, loading, error] = useObjectVal(ref(db, 'recipes/' + id))
@@ -46,10 +46,6 @@ export default function Recipe() {
     } catch (err) {
       // todo: report error
     }
-  }
-
-  const redirectToEdit = () => {
-    window.location.hash = '/recipe/edit/' + id
   }
 
   return (
@@ -88,7 +84,10 @@ export default function Recipe() {
             </Grid>
             <Grid item xs={2} sx={{ textAlign: 'right' }}>
               <Tooltip title='Edit recipe'>
-                <IconButton onClick={redirectToEdit}>
+                <IconButton
+                  component={RouterLink}
+                  to={`/recipe/edit/${recipe.id}`}
+                >
                   <EditIcon fontSize='small' />
                 </IconButton>
               </Tooltip>

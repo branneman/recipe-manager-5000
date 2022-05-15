@@ -1,3 +1,5 @@
+import AddDialog from '../add-dialog'
+
 import { alpha } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
@@ -8,8 +10,6 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import MealPlanIcon from '@mui/icons-material/CalendarMonth'
-
-import RecipeAddDialog from './RecipeAddDialog'
 
 export default function RecipeToolbar(props) {
   const {
@@ -47,7 +47,8 @@ export default function RecipeToolbar(props) {
             Recipes
           </Typography>
 
-          <RecipeAddDialog
+          <AddDialog
+            title='Add recipe'
             open={addDialogOpen}
             setAddDialogOpen={setAddDialogOpen}
             handleSubmit={handleAddDialogSubmit}

@@ -22,7 +22,7 @@ import Typography from '@mui/material/Typography'
 import AddToListIcon from '@mui/icons-material/PlaylistAdd'
 import RemoveFromListIcon from '@mui/icons-material/PlaylistRemove'
 
-export default function Recipe() {
+export default function EditRecipe() {
   const { id } = useParams()
 
   const [recipe, recipeLoading, error] = useObjectVal(ref(db, 'recipes/' + id))
