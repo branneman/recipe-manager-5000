@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/recipe-manager-5000/static/css/main.deb8e744.css",
-    "main.js": "/recipe-manager-5000/static/js/main.041fd80c.js",
+    "main.js": "/recipe-manager-5000/static/js/main.872bebfc.js",
     "static/media/roboto-all-500-normal.woff": "/recipe-manager-5000/static/media/roboto-all-500-normal.52cb737b682eb9661ee1.woff",
     "static/media/roboto-all-700-normal.woff": "/recipe-manager-5000/static/media/roboto-all-700-normal.ef6d1d09b20b877fee4e.woff",
     "static/media/roboto-all-400-normal.woff": "/recipe-manager-5000/static/media/roboto-all-400-normal.376ea5d93f71583052f6.woff",
     "static/media/roboto-all-300-normal.woff": "/recipe-manager-5000/static/media/roboto-all-300-normal.8fc5f5f22c9951113696.woff",
-    "static/media/logo.png": "/recipe-manager-5000/static/media/logo.c73ec54d40b8a4431ccc.png",
+    "static/media/logo.png": "/recipe-manager-5000/static/media/logo.266334ed2b0694fcba5d.png",
     "static/media/roboto-latin-500-normal.woff2": "/recipe-manager-5000/static/media/roboto-latin-500-normal.869888415d0b1a99ae5c.woff2",
     "static/media/roboto-latin-700-normal.woff2": "/recipe-manager-5000/static/media/roboto-latin-700-normal.0682ca7f74351d42bf73.woff2",
     "static/media/roboto-latin-300-normal.woff2": "/recipe-manager-5000/static/media/roboto-latin-300-normal.0109a2ace896a506a0aa.woff2",
@@ -37,10 +37,10 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/recipe-manager-5000/static/media/roboto-greek-ext-700-normal.9674bc0ae12c2551d9d1.woff2",
     "index.html": "/recipe-manager-5000/index.html",
     "main.deb8e744.css.map": "/recipe-manager-5000/static/css/main.deb8e744.css.map",
-    "main.041fd80c.js.map": "/recipe-manager-5000/static/js/main.041fd80c.js.map"
+    "main.872bebfc.js.map": "/recipe-manager-5000/static/js/main.872bebfc.js.map"
   },
   "entrypoints": [
     "static/css/main.deb8e744.css",
-    "static/js/main.041fd80c.js"
+    "static/js/main.872bebfc.js"
   ]
 }
