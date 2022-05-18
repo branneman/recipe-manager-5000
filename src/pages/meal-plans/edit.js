@@ -5,6 +5,7 @@ import { db } from '../../util/firebase'
 import { ref, set, update } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
 import { v4 as uuid } from 'uuid'
+import { DateTime } from 'luxon'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -170,7 +171,10 @@ export default function EditMealPlan() {
               <Grid container spacing={1} sx={{ mt: 4, mb: 1 }}>
                 <Grid item xs={10}>
                   <Typography variant='h5' component='div'>
-                    Day {day.day + 1}
+                    Day {day.day + 1}:{' '}
+                    {DateTime.fromISO(mealplan.start)
+                      .plus({ days: day.day })
+                      .toFormat('ccc dd LLL')}
                   </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ textAlign: 'right' }}>

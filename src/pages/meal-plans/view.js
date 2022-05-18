@@ -4,6 +4,7 @@ import { sortedMealplanDays } from '../../util/sorting'
 import { ref } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
 import { validate as isUuid } from 'uuid'
+import { DateTime } from 'luxon'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -80,8 +81,15 @@ export default function ViewMealPlan() {
         {days &&
           days.map(([id, day]) => (
             <Box key={id} sx={{ mt: 2 }}>
-              <Typography variant='h5' component='div' sx={{ mb: 1 }}>
-                Day {day.day + 1}
+              <Typography
+                variant='h6'
+                component='div'
+                sx={{ fontSize: '18px' }}
+              >
+                Day {day.day + 1}:{' '}
+                {DateTime.fromISO(mealplan.start)
+                  .plus({ days: day.day })
+                  .toFormat('ccc dd LLL')}
               </Typography>
               <Table size='small'>
                 <TableBody>
