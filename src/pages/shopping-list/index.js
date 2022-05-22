@@ -1,12 +1,25 @@
 import { useState, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import { db } from '../../util/firebase'
-import { ref, set, remove } from 'firebase/database'
+import { ref, set, update, remove } from 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 import { activeSortedShoppingList } from '../../util/sorting'
-import { callIfEnterKeyWasPressed } from '../../util/dom'
-import { find, propEq } from 'ramda'
+import {
+  map,
+  find,
+  propEq,
+  slice,
+  insert,
+  concat,
+  addIndex,
+  assoc,
+  filter,
+  toPairs,
+  complement,
+} from 'ramda'
 import { DateTime } from 'luxon'
+
+import ShoppingListItem from '../../components/shopping-list/item'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -16,13 +29,10 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
-import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 import AddToListIcon from '@mui/icons-material/PlaylistAdd'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import RemoveFromListIcon from '@mui/icons-material/PlaylistRemove'
 
 export default function ShoppingList() {
   const [rawList, loading, error] = useListVals(ref(db, 'shopping-list'))
@@ -39,11 +49,20 @@ export default function ShoppingList() {
     const id = uuid()
     const now = DateTime.now().toUTC().toISO()
     try {
+      // Reset all orders
+      const ops = {}
+      for (const [i, item] of toPairs(list)) {
+        ops[`shopping-list/${item.id}/order`] = Number(i) + 1
+      }
+      await update(ref(db), ops)
+
+      // Save new item
       await set(ref(db, 'shopping-list/' + id), {
         id,
         text: '',
         created: now,
         lastUpdated: now,
+        order: list.length + 1,
       })
     } catch (err) {
       // todo: report error
@@ -55,12 +74,24 @@ export default function ShoppingList() {
     setEditingItem(null)
     const text = event.target.value
     try {
-      await set(ref(db, 'shopping-list/' + id), {
-        id,
-        text,
-        created: find(propEq('id', id), list).created,
-        lastUpdated: DateTime.now().toUTC().toISO(),
-      })
+      const ops = {}
+      ops[`shopping-list/${id}/id`] = id
+      ops[`shopping-list/${id}/text`] = text
+      ops[`shopping-list/${id}/lastUpdated`] = DateTime.now().toUTC().toISO()
+      await update(ref(db), ops)
+    } catch (err) {
+      // todo: report error
+    }
+  }
+
+  const moveItem = async (id, fromOrder, toOrder) => {
+    try {
+      const newList = updateOrder(fromOrder, toOrder, list)
+      const ops = {}
+      for (const item of newList) {
+        ops[`shopping-list/${item.id}/order`] = item.order
+      }
+      await update(ref(db), ops)
     } catch (err) {
       // todo: report error
     }
@@ -68,7 +99,16 @@ export default function ShoppingList() {
 
   const deleteItem = (id) => async (_event) => {
     try {
+      // Remove item
       await remove(ref(db, 'shopping-list/' + id))
+
+      // Reset all orders
+      const listWithoutRemovedItem = filter(complement(propEq('id', id)), list)
+      const ops = {}
+      for (const [i, item] of toPairs(listWithoutRemovedItem)) {
+        ops[`shopping-list/${item.id}/order`] = Number(i) + 1
+      }
+      await update(ref(db), ops)
     } catch (err) {
       // todo: report error
     }
@@ -98,57 +138,19 @@ export default function ShoppingList() {
           <List>
             {Array.isArray(list) &&
               list.map((item) => (
-                <ListItem key={item.id} sx={{ p: 0, mb: 1 }}>
-                  <Tooltip title='Drag to re-order'>
-                    <DragIndicatorIcon
-                      fontSize='small'
-                      sx={{ cursor: 'grab' }}
-                    />
-                  </Tooltip>
-
-                  {editingItem === item.id ? (
-                    <TextField
-                      inputRef={editingItemRef}
-                      name={`item-${item.id}`}
-                      defaultValue={item.text}
-                      onBlur={saveItem(item.id)}
-                      onKeyPress={(evt) =>
-                        callIfEnterKeyWasPressed(evt, () => evt.target.blur())
-                      }
-                      variant='standard'
-                      fullWidth
-                    />
-                  ) : (
-                    <Typography
-                      onClick={() => setEditingItem(item.id)}
-                      sx={{
-                        cursor: 'text',
-                        flexGrow: 1,
-                        minHeight: '34px',
-                        p: '4px 0 5px',
-                        borderBottom: '1px solid rgba(255, 255, 255, 0.7)',
-                        '&:hover': {
-                          paddingBottom: '4px',
-                          borderBottom: '2px solid #fff',
-                        },
-                      }}
-                    >
-                      {item.text}{' '}
-                    </Typography>
-                  )}
-
-                  <Tooltip title='Remove item'>
-                    <IconButton
-                      onClick={deleteItem(item.id)}
-                      sx={{ ml: -1, alignSelf: 'start' }}
-                    >
-                      <RemoveFromListIcon fontSize='small' />
-                    </IconButton>
-                  </Tooltip>
-                </ListItem>
+                <ShoppingListItem
+                  key={item.id}
+                  item={item}
+                  editingItemRef={editingItemRef}
+                  editingItem={editingItem}
+                  setEditingItem={setEditingItem}
+                  saveItem={saveItem}
+                  moveItem={moveItem}
+                  deleteItem={deleteItem}
+                ></ShoppingListItem>
               ))}
 
-            <ListItem sx={{ p: 0 }}>
+            <ListItem key='new-item' sx={{ p: 0 }}>
               <Tooltip title='Add item'>
                 <IconButton
                   onClick={addItem}
@@ -163,4 +165,15 @@ export default function ShoppingList() {
       )}
     </Paper>
   )
+}
+
+export const updateOrder = (fromOrder, toOrder, xs) => {
+  const start = slice(0, fromOrder - 1, xs)
+  const item = find(propEq('order', fromOrder), xs)
+  const end = slice(fromOrder, Infinity, xs)
+
+  const resetOrderProp = addIndex(map)((x, i) => assoc('order', i + 1, x))
+
+  const ys = insert(toOrder - 1, item, concat(start, end))
+  return resetOrderProp(ys)
 }
