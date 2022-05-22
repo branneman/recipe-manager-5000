@@ -4,6 +4,7 @@ import { db } from '../../util/firebase'
 import { ref, set, remove } from 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 import { activeSortedShoppingList } from '../../util/sorting'
+import { callIfEnterKeyWasPressed } from '../../util/dom'
 import { find, propEq } from 'ramda'
 import { DateTime } from 'luxon'
 
@@ -111,6 +112,9 @@ export default function ShoppingList() {
                       name={`item-${item.id}`}
                       defaultValue={item.text}
                       onBlur={saveItem(item.id)}
+                      onKeyPress={(evt) =>
+                        callIfEnterKeyWasPressed(evt, () => evt.target.blur())
+                      }
                       variant='standard'
                       fullWidth
                     />

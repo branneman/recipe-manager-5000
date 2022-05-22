@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams, Link as RouterLink } from 'react-router-dom'
 import { sortedMealplanDays } from '../../util/sorting'
+import { callIfEnterKeyWasPressed } from '../../util/dom'
 import { db } from '../../util/firebase'
 import { ref, set, update } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
@@ -44,8 +45,7 @@ export default function EditMealPlan() {
   const saveStartDate = async (value) => {
     setSaveLoading(true)
     try {
-      const r = ref(db, `meal-plans/${mealplan.id}/start`)
-      await set(r, value)
+      await set(ref(db, `meal-plans/${mealplan.id}/start`), value)
     } catch (err) {
       // todo: report error
     }
@@ -61,6 +61,17 @@ export default function EditMealPlan() {
       await set(r, {
         day: mealplan.days ? Object.entries(mealplan.days).length : 0,
       })
+    } catch (err) {
+      // todo: report error
+    }
+    setSaveLoading(false)
+  }
+
+  const saveName = async (value) => {
+    if (mealplan.name === value) return
+    setSaveLoading(true)
+    try {
+      await set(ref(db, `meal-plans/${mealplan.id}/name`), value)
     } catch (err) {
       // todo: report error
     }
@@ -122,7 +133,7 @@ export default function EditMealPlan() {
           <Grid item xs={2}>
             <Tooltip title='Back to Meal Plans'>
               <IconButton
-                to='/meal-plans'
+                to={`/meal-plans/${id}`}
                 component={RouterLink}
                 sx={{ ml: -1 }}
                 disabled={saveLoading}
@@ -142,6 +153,10 @@ export default function EditMealPlan() {
           label='Name'
           name='name'
           defaultValue={mealplan.name}
+          onBlur={(evt) => saveName(evt.target.value)}
+          onKeyPress={(evt) =>
+            callIfEnterKeyWasPressed(evt, () => evt.target.blur())
+          }
           variant='standard'
           fullWidth
           sx={{ mb: 2 }}
@@ -194,6 +209,9 @@ export default function EditMealPlan() {
                 name='breakfast'
                 defaultValue={day.breakfast}
                 onBlur={(evt) => saveDay(id, 'breakfast', evt.target.value)}
+                onKeyPress={(evt) =>
+                  callIfEnterKeyWasPressed(evt, () => evt.target.blur())
+                }
                 variant='standard'
                 fullWidth
                 sx={{ mb: 2 }}
@@ -203,6 +221,9 @@ export default function EditMealPlan() {
                 name='lunch'
                 defaultValue={day.lunch}
                 onBlur={(evt) => saveDay(id, 'lunch', evt.target.value)}
+                onKeyPress={(evt) =>
+                  callIfEnterKeyWasPressed(evt, () => evt.target.blur())
+                }
                 variant='standard'
                 fullWidth
                 sx={{ mb: 2 }}
@@ -212,6 +233,9 @@ export default function EditMealPlan() {
                 name='dinner'
                 defaultValue={day.dinner}
                 onBlur={(evt) => saveDay(id, 'dinner', evt.target.value)}
+                onKeyPress={(evt) =>
+                  callIfEnterKeyWasPressed(evt, () => evt.target.blur())
+                }
                 variant='standard'
                 fullWidth
                 sx={{ mb: 2 }}
