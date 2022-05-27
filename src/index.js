@@ -1,6 +1,8 @@
 import React from 'react'
+import { isMobile } from 'react-device-detect'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { TouchBackend } from 'react-dnd-touch-backend'
 import ReactDOM from 'react-dom/client'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
@@ -17,10 +19,12 @@ import Auth from './components/auth'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
+const DnDBackend = isMobile ? TouchBackend : HTML5Backend
+
 root.render(
   <React.StrictMode>
     <Auth>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={DnDBackend}>
         <HashRouter>
           <Routes>
             <Route path="/" element={<App />}>

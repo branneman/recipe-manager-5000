@@ -48,25 +48,23 @@ export default function ShoppingListItem(props) {
     },
   })
 
-  const [{ isDragging }, drag, preview] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     type: 'shopping-list-item',
     item: () => ({ id: item.id, index: item.order }),
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   })
 
-  preview(drop(dropRef))
+  drop(dropRef)
 
   return (
     <ListItem
       ref={dropRef}
       data-handler-id={handlerId}
-      style={{ opacity: isDragging ? 0 : 1 }}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
       sx={{ p: 0, mb: 1 }}
     >
       <div ref={drag}>
-        <Tooltip title="Drag to re-order">
-          <DragIndicatorIcon fontSize="small" sx={{ cursor: 'grab' }} />
-        </Tooltip>
+        <DragIndicatorIcon fontSize="small" sx={{ cursor: 'grab' }} />
       </div>
 
       {editingItem === item.id ? (
