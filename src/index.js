@@ -24,7 +24,7 @@ root.render(
         <HashRouter>
           <Routes>
             <Route path="/" element={<App />}>
-              <Route index element={<Recipes />} />
+              <Route index element={<MealPlans />} />
               <Route path="recipes" element={<Recipes />} />
               <Route path="recipe/:id" element={<ViewRecipe />} />
               <Route path="recipe/edit/:id" element={<EditRecipe />} />
