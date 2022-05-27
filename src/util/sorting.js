@@ -1,15 +1,15 @@
 import {
-  pipe,
-  map,
-  assoc,
-  prop,
-  path,
-  toPairs,
-  uniqBy,
   addIndex,
+  ascend,
+  assoc,
+  map,
+  path,
+  pipe,
+  prop,
   sortBy,
   sortWith,
-  ascend,
+  toPairs,
+  uniqBy,
 } from 'ramda'
 
 export const activeSortedRecipes = pipe(

@@ -1,8 +1,9 @@
-import { Link as RouterLink } from 'react-router-dom'
-import { auth, db } from '../../util/firebase'
 import { signOut } from 'firebase/auth'
 import { ref, update } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
+import { Link as RouterLink } from 'react-router-dom'
+
+import { auth, db } from '../../util/firebase'
 
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
@@ -12,10 +13,10 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
 import ThemeModeIcon from '@mui/icons-material/Brightness4'
+import ShoppingListIcon from '@mui/icons-material/FormatListBulleted'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MealPlanIcon from '@mui/icons-material/MenuBook'
 import RecipesIcon from '@mui/icons-material/RestaurantMenu'
-import ShoppingListIcon from '@mui/icons-material/FormatListBulleted'
 
 export default function Menu(props) {
   const { user, toggleMenu } = props
@@ -40,30 +41,30 @@ export default function Menu(props) {
   return (
     <Box
       sx={{ width: 250 }}
-      role='presentation'
+      role="presentation"
       onClick={toggleMenu}
       onKeyDown={toggleMenu}
     >
       <List>
-        <ListItem button to='/recipes' component={RouterLink}>
+        <ListItem button to="/recipes" component={RouterLink}>
           <ListItemIcon>
             <RecipesIcon />
           </ListItemIcon>
-          <ListItemText primary='Recipes' />
+          <ListItemText primary="Recipes" />
         </ListItem>
 
-        <ListItem button to='/meal-plans' component={RouterLink}>
+        <ListItem button to="/meal-plans" component={RouterLink}>
           <ListItemIcon>
             <MealPlanIcon />
           </ListItemIcon>
-          <ListItemText primary='Meal Plans' />
+          <ListItemText primary="Meal Plans" />
         </ListItem>
 
-        <ListItem button to='/shopping-list' component={RouterLink}>
+        <ListItem button to="/shopping-list" component={RouterLink}>
           <ListItemIcon>
             <ShoppingListIcon />
           </ListItemIcon>
-          <ListItemText primary='Shopping list' />
+          <ListItemText primary="Shopping list" />
         </ListItem>
 
         <Divider sx={{ mt: 2, mb: 2 }} />
@@ -79,7 +80,7 @@ export default function Menu(props) {
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
-          <ListItemText primary='Logout' />
+          <ListItemText primary="Logout" />
         </ListItem>
       </List>
     </Box>

@@ -7,9 +7,9 @@ export default function Logo(props) {
 
   return (
     <Avatar
-      alt='RECIPE MANAGER 5000'
+      alt="RECIPE MANAGER 5000"
       src={LogoIcon}
-      variant='square'
+      variant="square"
       sx={{ width: size, height: size, ...(sx || {}) }}
     />
   )

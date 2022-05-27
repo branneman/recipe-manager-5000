@@ -1,10 +1,11 @@
-import { useParams, Link as RouterLink } from 'react-router-dom'
+import { ref } from 'firebase/database'
+import { DateTime } from 'luxon'
+import { useObjectVal } from 'react-firebase-hooks/database'
+import { Link as RouterLink, useParams } from 'react-router-dom'
+import { validate as isUuid } from 'uuid'
+
 import { db } from '../../util/firebase'
 import { sortedMealplanDays } from '../../util/sorting'
-import { ref } from 'firebase/database'
-import { useObjectVal } from 'react-firebase-hooks/database'
-import { validate as isUuid } from 'uuid'
-import { DateTime } from 'luxon'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -34,7 +35,7 @@ export default function ViewMealPlan() {
   if (error) {
     return (
       <Box sx={{ marginTop: 1 }}>
-        <Alert severity='error'>
+        <Alert severity="error">
           <AlertTitle>Error:</AlertTitle>
           <pre>
             <code>{error.message}</code>
@@ -51,28 +52,28 @@ export default function ViewMealPlan() {
       <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           <Grid item xs={2}>
-            <Tooltip title='Back to Meal Plans'>
+            <Tooltip title="Back to Meal Plans">
               <IconButton
-                to='/meal-plans'
+                to="/meal-plans"
                 component={RouterLink}
                 sx={{ ml: -1 }}
               >
-                <BackIcon fontSize='small' />
+                <BackIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </Grid>
           <Grid item xs={8}>
-            <Typography variant='h6' sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
+            <Typography variant="h6" sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
               {mealplan.name}
             </Typography>
           </Grid>
           <Grid item xs={2} sx={{ textAlign: 'right' }}>
-            <Tooltip title='Edit Meal Plan'>
+            <Tooltip title="Edit Meal Plan">
               <IconButton
                 component={RouterLink}
                 to={`/meal-plans/edit/${mealplan.id}`}
               >
-                <EditIcon fontSize='small' />
+                <EditIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </Grid>
@@ -82,8 +83,8 @@ export default function ViewMealPlan() {
           days.map(([id, day]) => (
             <Box key={id} sx={{ mt: 2 }}>
               <Typography
-                variant='h6'
-                component='div'
+                variant="h6"
+                component="div"
                 sx={{ fontSize: '18px' }}
               >
                 Day {day.day + 1}:{' '}
@@ -91,7 +92,7 @@ export default function ViewMealPlan() {
                   .plus({ days: day.day })
                   .toFormat('ccc dd LLL')}
               </Typography>
-              <Table size='small'>
+              <Table size="small">
                 <TableBody>
                   {['breakfast', 'lunch', 'dinner'].map(
                     (meal) =>
@@ -137,7 +138,7 @@ function RecipeMention(props) {
 
   if (error)
     return (
-      <Alert severity='error'>
+      <Alert severity="error">
         <AlertTitle>Could not load recipe</AlertTitle>
       </Alert>
     )
@@ -148,7 +149,7 @@ function RecipeMention(props) {
     <Typography
       component={RouterLink}
       to={`/recipe/${recipe.id}`}
-      color='text.primary'
+      color="text.primary"
       style={{
         fontSize: '0.875rem',
         fontWeight: 'bold',

@@ -1,7 +1,8 @@
-import { auth } from '../../util/firebase'
+import AuthContext from '../../context/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import AuthContext from '../../context/auth'
+import { auth } from '../../util/firebase'
+
 import Login from '../../pages/login'
 
 import Alert from '@mui/material/Alert'
@@ -18,7 +19,7 @@ export default function Auth(props) {
   if (error)
     return (
       <Box sx={{ marginTop: 1 }}>
-        <Alert severity='error'>
+        <Alert severity="error">
           <AlertTitle>Error while logging in:</AlertTitle>
           <pre>
             <code>{error.message}</code>

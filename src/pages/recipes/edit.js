@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { db } from '../../util/firebase'
 import { ref, update } from 'firebase/database'
-import { useObjectVal } from 'react-firebase-hooks/database'
-import { v4 as uuid } from 'uuid'
 import { concat, remove } from 'ramda'
+import { useState } from 'react'
+import { useObjectVal } from 'react-firebase-hooks/database'
+import { useParams } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
+
+import { db } from '../../util/firebase'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -66,7 +67,7 @@ export default function EditRecipe() {
     <Paper sx={{ width: '100%', mb: 2 }}>
       {error && (
         <Box sx={{ marginTop: 1 }}>
-          <Alert severity='error'>
+          <Alert severity="error">
             <AlertTitle>Error:</AlertTitle>
             <pre>
               <code>{error.message}</code>
@@ -78,35 +79,35 @@ export default function EditRecipe() {
       {!error && loading && <Skeleton height={300} />}
 
       {!error && !loading && recipe && (
-        <Box component='form' onSubmit={onSubmit} noValidate sx={{ p: 2 }}>
+        <Box component="form" onSubmit={onSubmit} noValidate sx={{ p: 2 }}>
           <TextField
-            label='Name'
-            name='name'
+            label="Name"
+            name="name"
             defaultValue={recipe.name}
-            variant='standard'
+            variant="standard"
             fullWidth
             sx={{ mb: 3 }}
           />
           <TextField
-            label='Time (minutes)'
-            name='time'
+            label="Time (minutes)"
+            name="time"
             defaultValue={recipe.time}
-            variant='standard'
+            variant="standard"
             fullWidth
             sx={{ mb: 3 }}
           />
           <TextField
-            label='Tags (separated by spaces)'
-            name='tags'
+            label="Tags (separated by spaces)"
+            name="tags"
             defaultValue={
               Array.isArray(recipe.tags) ? recipe.tags.join(' ') : ''
             }
-            variant='standard'
+            variant="standard"
             fullWidth
             sx={{ mb: 3 }}
           />
 
-          <Typography variant='subtitle1' sx={{ mt: 3 }}>
+          <Typography variant="subtitle1" sx={{ mt: 3 }}>
             Ingredients
           </Typography>
           <List>
@@ -114,94 +115,94 @@ export default function EditRecipe() {
               ingredients.map((ingredient, i) => (
                 <ListItem key={ingredient.id} sx={{ p: 0 }}>
                   <input
-                    type='hidden'
+                    type="hidden"
                     name={`id-ingredient-${i}`}
                     value={ingredient.id}
                   />
                   <TextField
                     name={`ingredient-${i}`}
                     defaultValue={ingredient.text}
-                    variant='standard'
+                    variant="standard"
                     fullWidth
                   />
-                  <Tooltip title='Remove ingredient'>
+                  <Tooltip title="Remove ingredient">
                     <IconButton
                       onClick={removeIngredient(i)}
                       sx={{ ml: -1, alignSelf: 'start' }}
                     >
-                      <RemoveFromListIcon fontSize='small' />
+                      <RemoveFromListIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </ListItem>
               ))}
             <ListItem sx={{ p: 0 }}>
-              <Tooltip title='Add ingredient'>
+              <Tooltip title="Add ingredient">
                 <IconButton
                   onClick={addIngredient}
                   sx={{ ml: -1, alignSelf: 'start' }}
                 >
-                  <AddToListIcon fontSize='small' />
+                  <AddToListIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
             </ListItem>
           </List>
 
-          <Typography variant='subtitle1' sx={{ mt: 3 }}>
+          <Typography variant="subtitle1" sx={{ mt: 3 }}>
             Steps
           </Typography>
           <List>
             {Array.isArray(steps) &&
               steps.map((step, i) => (
                 <ListItem key={step.id} sx={{ p: 0, pb: 1 }}>
-                  <input type='hidden' name={`id-step-${i}`} value={step.id} />
+                  <input type="hidden" name={`id-step-${i}`} value={step.id} />
                   <TextField
                     name={`step-${i}`}
                     multiline
                     defaultValue={step.text}
-                    variant='standard'
+                    variant="standard"
                     fullWidth
                   />
-                  <Tooltip title='Remove step'>
+                  <Tooltip title="Remove step">
                     <IconButton
                       onClick={removeStep(i)}
                       sx={{ ml: -1, alignSelf: 'start' }}
                     >
-                      <RemoveFromListIcon fontSize='small' />
+                      <RemoveFromListIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </ListItem>
               ))}
             <ListItem sx={{ p: 0 }}>
-              <Tooltip title='Add step'>
+              <Tooltip title="Add step">
                 <IconButton
                   onClick={addStep}
                   sx={{ ml: -1, alignSelf: 'start' }}
                 >
-                  <AddToListIcon fontSize='small' />
+                  <AddToListIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
             </ListItem>
           </List>
 
           <TextField
-            label='Notes (multiline)'
-            name='notes'
+            label="Notes (multiline)"
+            name="notes"
             multiline
             defaultValue={recipe.notes}
-            variant='standard'
+            variant="standard"
             fullWidth
             sx={{ mt: 3, mb: 3 }}
           />
           <TextField
-            label='Source URL'
-            name='source'
+            label="Source URL"
+            name="source"
             defaultValue={recipe.source}
-            variant='standard'
+            variant="standard"
             fullWidth
           />
 
           <Box>
-            <Button type='submit' variant='contained' sx={{ mt: 3 }}>
+            <Button type="submit" variant="contained" sx={{ mt: 3 }}>
               Save &amp; Close
             </Button>
           </Box>

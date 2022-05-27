@@ -26,21 +26,21 @@ export default function AddDialog(props) {
 
   return (
     <Dialog open={open} onClose={onCancel}>
-      <Box component='form' onSubmit={onSubmit} noValidate>
+      <Box component="form" onSubmit={onSubmit} noValidate>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <TextField
-            id='name'
-            name='name'
-            label='Name'
+            id="name"
+            name="name"
+            label="Name"
             fullWidth
-            variant='standard'
-            margin='dense'
+            variant="standard"
+            margin="dense"
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={onCancel}>Cancel</Button>
-          <Button type='submit' variant='primary'>
+          <Button type="submit" variant="primary">
             Add
           </Button>
         </DialogActions>

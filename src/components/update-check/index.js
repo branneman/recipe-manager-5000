@@ -1,12 +1,13 @@
-import { db } from '../../util/firebase'
+import Loader from '../loader'
 import { ref } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
+
+import { db } from '../../util/firebase'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Loader from '../loader'
 
 export default function UpdateCheck(props) {
   const { appVersion } = props
@@ -18,7 +19,7 @@ export default function UpdateCheck(props) {
   if (error) {
     return (
       <Box sx={{ marginTop: 1 }}>
-        <Alert severity='error'>
+        <Alert severity="error">
           <AlertTitle>Error:</AlertTitle>
           <pre>
             <code>{error.message}</code>
@@ -39,11 +40,11 @@ export default function UpdateCheck(props) {
           justifyContent: 'center',
         }}
       >
-        <Alert severity='warning'>
+        <Alert severity="warning">
           <AlertTitle>An update has been released.</AlertTitle>
           To continue, you need to refresh the page.
           <Button
-            variant='outlined'
+            variant="outlined"
             sx={{ display: 'block', mt: 2 }}
             onClick={() => window.location.reload()}
           >

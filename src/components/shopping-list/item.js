@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+
 import { callIfEnterKeyWasPressed } from '../../util/dom'
 
 import IconButton from '@mui/material/IconButton'
@@ -63,8 +64,8 @@ export default function ShoppingListItem(props) {
       sx={{ p: 0, mb: 1 }}
     >
       <div ref={drag}>
-        <Tooltip title='Drag to re-order'>
-          <DragIndicatorIcon fontSize='small' sx={{ cursor: 'grab' }} />
+        <Tooltip title="Drag to re-order">
+          <DragIndicatorIcon fontSize="small" sx={{ cursor: 'grab' }} />
         </Tooltip>
       </div>
 
@@ -77,7 +78,7 @@ export default function ShoppingListItem(props) {
           onKeyPress={(evt) =>
             callIfEnterKeyWasPressed(evt, () => evt.target.blur())
           }
-          variant='standard'
+          variant="standard"
           fullWidth
         />
       ) : (
@@ -99,12 +100,12 @@ export default function ShoppingListItem(props) {
         </Typography>
       )}
 
-      <Tooltip title='Remove item'>
+      <Tooltip title="Remove item">
         <IconButton
           onClick={deleteItem(item.id)}
           sx={{ ml: -1, alignSelf: 'start' }}
         >
-          <RemoveFromListIcon fontSize='small' />
+          <RemoveFromListIcon fontSize="small" />
         </IconButton>
       </Tooltip>
     </ListItem>

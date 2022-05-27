@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { auth } from '../../util/firebase'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
+
+import { auth } from '../../util/firebase'
 
 import Loader from '../../components/loader'
 import Logo from '../../components/logo'
@@ -53,7 +54,7 @@ export default function Login() {
   }
 
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth="sm">
       {/* Is user login still processing? */}
       {!error && loading && <Loader />}
 
@@ -66,40 +67,40 @@ export default function Login() {
         }}
       >
         <Logo size={72} sx={{ mb: 2 }} />
-        <Typography variant='h5' component='h1' sx={{ mb: 2 }}>
+        <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
           RECIPE MANAGER 5000
         </Typography>
 
-        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
-            margin='normal'
+            margin="normal"
             required
             fullWidth
-            id='email'
-            label='Email'
-            name='email'
-            autoComplete='email'
+            id="email"
+            label="Email"
+            name="email"
+            autoComplete="email"
             autoFocus
           />
 
-          <FormControl variant='outlined' fullWidth margin='normal'>
-            <InputLabel htmlFor='password'>Password</InputLabel>
+          <FormControl variant="outlined" fullWidth margin="normal">
+            <InputLabel htmlFor="password">Password</InputLabel>
             <OutlinedInput
-              id='password'
-              autoComplete='current-password'
+              id="password"
+              autoComplete="current-password"
               required
-              name='password'
-              label='Password'
+              name="password"
+              label="Password"
               type={values.showPassword ? 'text' : 'password'}
               value={values.password}
               onChange={handleChange('password')}
               endAdornment={
-                <InputAdornment position='end'>
+                <InputAdornment position="end">
                   <IconButton
-                    aria-label='toggle password visibility'
+                    aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge='end'
+                    edge="end"
                   >
                     {values.showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -111,14 +112,14 @@ export default function Login() {
           {/* AuthError returned by Firebase when trying to login the user */}
           {error && (
             <Box sx={{ mt: 1 }}>
-              <Alert severity='error'>{error2message(error.code)}</Alert>
+              <Alert severity="error">{error2message(error.code)}</Alert>
             </Box>
           )}
 
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
+            variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
             Sign In

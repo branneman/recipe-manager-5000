@@ -1,23 +1,24 @@
-import { useState, useEffect, useRef } from 'react'
-import { v4 as uuid } from 'uuid'
-import { db } from '../../util/firebase'
-import { ref, set, update, remove } from 'firebase/database'
-import { useListVals } from 'react-firebase-hooks/database'
-import { activeSortedShoppingList } from '../../util/sorting'
+import { ref, remove, set, update } from 'firebase/database'
+import { DateTime } from 'luxon'
 import {
-  map,
-  find,
-  propEq,
-  slice,
-  insert,
-  concat,
   addIndex,
   assoc,
-  filter,
-  toPairs,
   complement,
+  concat,
+  filter,
+  find,
+  insert,
+  map,
+  propEq,
+  slice,
+  toPairs,
 } from 'ramda'
-import { DateTime } from 'luxon'
+import { useEffect, useRef, useState } from 'react'
+import { useListVals } from 'react-firebase-hooks/database'
+import { v4 as uuid } from 'uuid'
+
+import { db } from '../../util/firebase'
+import { activeSortedShoppingList } from '../../util/sorting'
 
 import ShoppingListItem from '../../components/shopping-list/item'
 
@@ -118,7 +119,7 @@ export default function ShoppingList() {
     <Paper sx={{ width: '100%', mb: 2 }}>
       {error && (
         <Box sx={{ marginTop: 1 }}>
-          <Alert severity='error'>
+          <Alert severity="error">
             <AlertTitle>Error:</AlertTitle>
             <pre>
               <code>{error.message}</code>
@@ -131,7 +132,7 @@ export default function ShoppingList() {
 
       {!error && !loading && list && (
         <Box sx={{ p: 2 }}>
-          <Typography variant='h6' sx={{ mt: 0.5, mb: 1 }}>
+          <Typography variant="h6" sx={{ mt: 0.5, mb: 1 }}>
             Shopping list
           </Typography>
 
@@ -150,13 +151,13 @@ export default function ShoppingList() {
                 ></ShoppingListItem>
               ))}
 
-            <ListItem key='new-item' sx={{ p: 0 }}>
-              <Tooltip title='Add item'>
+            <ListItem key="new-item" sx={{ p: 0 }}>
+              <Tooltip title="Add item">
                 <IconButton
                   onClick={addItem}
                   sx={{ ml: -1, alignSelf: 'start' }}
                 >
-                  <AddToListIcon fontSize='small' />
+                  <AddToListIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
             </ListItem>

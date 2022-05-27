@@ -24,9 +24,9 @@ export default function RecipeTable(props) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell padding='checkbox'>
+            <TableCell padding="checkbox">
               <Checkbox
-                color='primary'
+                color="primary"
                 indeterminate={
                   selected.length > 0 && selected.length < recipes.length
                 }
@@ -37,35 +37,35 @@ export default function RecipeTable(props) {
               />
             </TableCell>
             <TableCell>Name</TableCell>
-            <TableCell align='right'>Time</TableCell>
+            <TableCell align="right">Time</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
           {recipes.map((recipe) => (
             <TableRow
-              role='checkbox'
+              role="checkbox"
               key={recipe.id}
               selected={isSelected(recipe.id)}
             >
-              <TableCell padding='checkbox'>
+              <TableCell padding="checkbox">
                 <Checkbox
-                  color='primary'
+                  color="primary"
                   checked={isSelected(recipe.id)}
                   onClick={(event) => handleSelectOneClick(event, recipe.id)}
                 />
               </TableCell>
-              <TableCell component='th' scope='row'>
+              <TableCell component="th" scope="row">
                 <RouterLink
                   to={`/recipe/${recipe.id}`}
                   style={{ textDecoration: 'none' }}
                 >
-                  <Typography variant='subtitle2' color='text.primary'>
+                  <Typography variant="subtitle2" color="text.primary">
                     {recipe.name}
                   </Typography>
                 </RouterLink>
               </TableCell>
-              <TableCell align='right'>{recipe.time}</TableCell>
+              <TableCell align="right">{recipe.time}</TableCell>
             </TableRow>
           ))}
         </TableBody>

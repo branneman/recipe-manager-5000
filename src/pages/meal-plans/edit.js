@@ -1,32 +1,32 @@
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { ref, set, update } from 'firebase/database'
+import { DateTime } from 'luxon'
 import { useState } from 'react'
-import { useParams, Link as RouterLink } from 'react-router-dom'
-import { sortedMealplanDays } from '../../util/sorting'
+import { useObjectVal } from 'react-firebase-hooks/database'
+import { Link as RouterLink, useParams } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
+
 import { callIfEnterKeyWasPressed } from '../../util/dom'
 import { db } from '../../util/firebase'
-import { ref, set, update } from 'firebase/database'
-import { useObjectVal } from 'react-firebase-hooks/database'
-import { v4 as uuid } from 'uuid'
-import { DateTime } from 'luxon'
+import { sortedMealplanDays } from '../../util/sorting'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
 import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-
-import AddToListIcon from '@mui/icons-material/PlaylistAdd'
 import BackIcon from '@mui/icons-material/ArrowBackIosNew'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddToListIcon from '@mui/icons-material/PlaylistAdd'
 
 export default function EditMealPlan() {
   const { id } = useParams()
@@ -114,7 +114,7 @@ export default function EditMealPlan() {
   if (error) {
     return (
       <Box sx={{ marginTop: 1 }}>
-        <Alert severity='error'>
+        <Alert severity="error">
           <AlertTitle>Error:</AlertTitle>
           <pre>
             <code>{error.message}</code>
@@ -131,50 +131,50 @@ export default function EditMealPlan() {
       <Box noValidate sx={{ p: 2 }}>
         <Grid container spacing={1} sx={{ mb: 2 }}>
           <Grid item xs={2}>
-            <Tooltip title='Back to Meal Plans'>
+            <Tooltip title="Back to Meal Plans">
               <IconButton
                 to={`/meal-plans/${id}`}
                 component={RouterLink}
                 sx={{ ml: -1 }}
                 disabled={saveLoading}
               >
-                <BackIcon fontSize='small' />
+                <BackIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </Grid>
           <Grid item xs={10}>
-            <Typography variant='h6' sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
+            <Typography variant="h6" sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
               Edit Meal Plan
             </Typography>
           </Grid>
         </Grid>
 
         <TextField
-          label='Name'
-          name='name'
+          label="Name"
+          name="name"
           defaultValue={mealplan.name}
           onBlur={(evt) => saveName(evt.target.value)}
           onKeyPress={(evt) =>
             callIfEnterKeyWasPressed(evt, () => evt.target.blur())
           }
-          variant='standard'
+          variant="standard"
           fullWidth
           sx={{ mb: 2 }}
         />
 
-        <LocalizationProvider dateAdapter={AdapterLuxon} locale='en-GB'>
+        <LocalizationProvider dateAdapter={AdapterLuxon} locale="en-GB">
           <DatePicker
-            label='First day'
+            label="First day"
             value={startDate}
             onChange={(d) => saveStartDate(d.toISODate())}
             renderInput={(params) => (
-              <TextField {...params} variant='standard' fullWidth />
+              <TextField {...params} variant="standard" fullWidth />
             )}
           />
         </LocalizationProvider>
 
         {days && (
-          <Typography variant='body2' sx={{ mt: 3 }}>
+          <Typography variant="body2" sx={{ mt: 3 }}>
             Tip: the Breakfast, Lunch and Dinner fields accepts plain text, a
             link, or a recipe ID
           </Typography>
@@ -185,7 +185,7 @@ export default function EditMealPlan() {
             <Box key={id}>
               <Grid container spacing={1} sx={{ mt: 4, mb: 1 }}>
                 <Grid item xs={10}>
-                  <Typography variant='h5' component='div'>
+                  <Typography variant="h5" component="div">
                     Day {day.day + 1}:{' '}
                     {DateTime.fromISO(mealplan.start)
                       .plus({ days: day.day })
@@ -198,45 +198,45 @@ export default function EditMealPlan() {
                       onClick={removeDay(id)}
                       sx={{ mr: -1.5, alignSelf: 'start' }}
                     >
-                      <DeleteIcon fontSize='small' />
+                      <DeleteIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </Grid>
               </Grid>
 
               <TextField
-                label='Breakfast'
-                name='breakfast'
+                label="Breakfast"
+                name="breakfast"
                 defaultValue={day.breakfast}
                 onBlur={(evt) => saveDay(id, 'breakfast', evt.target.value)}
                 onKeyPress={(evt) =>
                   callIfEnterKeyWasPressed(evt, () => evt.target.blur())
                 }
-                variant='standard'
+                variant="standard"
                 fullWidth
                 sx={{ mb: 2 }}
               />
               <TextField
-                label='Lunch'
-                name='lunch'
+                label="Lunch"
+                name="lunch"
                 defaultValue={day.lunch}
                 onBlur={(evt) => saveDay(id, 'lunch', evt.target.value)}
                 onKeyPress={(evt) =>
                   callIfEnterKeyWasPressed(evt, () => evt.target.blur())
                 }
-                variant='standard'
+                variant="standard"
                 fullWidth
                 sx={{ mb: 2 }}
               />
               <TextField
-                label='Dinner'
-                name='dinner'
+                label="Dinner"
+                name="dinner"
                 defaultValue={day.dinner}
                 onBlur={(evt) => saveDay(id, 'dinner', evt.target.value)}
                 onKeyPress={(evt) =>
                   callIfEnterKeyWasPressed(evt, () => evt.target.blur())
                 }
-                variant='standard'
+                variant="standard"
                 fullWidth
                 sx={{ mb: 2 }}
               />
@@ -253,7 +253,7 @@ export default function EditMealPlan() {
             <Button
               component={RouterLink}
               to={`/meal-plans/${mealplan.id}`}
-              variant='contained'
+              variant="contained"
               sx={{}}
               disabled={saveLoading}
             >

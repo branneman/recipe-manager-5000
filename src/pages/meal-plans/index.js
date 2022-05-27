@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
-import { db } from '../../util/firebase'
-import { v4 as uuid } from 'uuid'
 import { ref, set } from 'firebase/database'
-import { useListVals } from 'react-firebase-hooks/database'
-import { activeSortedMealPlans } from '../../util/sorting'
 import { DateTime } from 'luxon'
+import { useState } from 'react'
+import { useListVals } from 'react-firebase-hooks/database'
+import { Link as RouterLink } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
+
+import { db } from '../../util/firebase'
+import { activeSortedMealPlans } from '../../util/sorting'
 
 import AddDialog from '../../components/add-dialog'
 
@@ -14,8 +15,8 @@ import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import IconButton from '@mui/material/IconButton'
 import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
@@ -56,7 +57,7 @@ export default function MealPlans() {
   if (error) {
     return (
       <Box sx={{ marginTop: 1 }}>
-        <Alert severity='error'>
+        <Alert severity="error">
           <AlertTitle>Error:</AlertTitle>
           <pre>
             <code>{error.message}</code>
@@ -70,23 +71,23 @@ export default function MealPlans() {
 
   return (
     <>
-      <Stack direction='row'>
+      <Stack direction="row">
         <Typography
           sx={{ flex: '1 1 100%', pt: 0.5 }}
-          variant='h6'
-          id='tableTitle'
-          component='div'
+          variant="h6"
+          id="tableTitle"
+          component="div"
         >
           Meal Plans
         </Typography>
 
         <AddDialog
-          title='Add meal plan'
+          title="Add meal plan"
           open={addDialogOpen}
           setAddDialogOpen={setAddDialogOpen}
           handleSubmit={handleAddDialogSubmit}
         />
-        <Tooltip title='Add meal plan'>
+        <Tooltip title="Add meal plan">
           <IconButton onClick={() => setAddDialogOpen(true)}>
             <AddIcon />
           </IconButton>
@@ -101,8 +102,8 @@ export default function MealPlans() {
                 <Typography
                   component={RouterLink}
                   to={`/meal-plans/${mealplan.id}`}
-                  variant='h5'
-                  color='text.primary'
+                  variant="h5"
+                  color="text.primary"
                   style={{ textDecoration: 'none' }}
                 >
                   {mealplan.name}
@@ -111,14 +112,14 @@ export default function MealPlans() {
               <Grid item xs={2} sx={{ textAlign: 'right' }}>
                 <Tooltip title={`Delete ${mealplan.name}`}>
                   <IconButton onClick={removeMealplan(mealplan.id)}>
-                    <DeleteIcon fontSize='small' />
+                    <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               </Grid>
             </Grid>
 
             {mealplan.days && Object.values(mealplan.days).length && (
-              <Typography sx={{ mt: 2 }} color='text.secondary'>
+              <Typography sx={{ mt: 2 }} color="text.secondary">
                 {Object.values(mealplan.days).length} day
                 {Object.values(mealplan.days).length > 1 ? 's' : ''}, starts at{' '}
                 {DateTime.fromISO(mealplan.start).toLocaleString(
@@ -129,7 +130,7 @@ export default function MealPlans() {
             )}
 
             {!mealplan.days && (
-              <Typography sx={{ mt: 2 }} color='text.secondary'>
+              <Typography sx={{ mt: 2 }} color="text.secondary">
                 No days added yet
               </Typography>
             )}

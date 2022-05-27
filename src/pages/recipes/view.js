@@ -1,7 +1,8 @@
-import { useParams, Link as RouterLink } from 'react-router-dom'
-import { db } from '../../util/firebase'
 import { ref, update } from 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
+import { Link as RouterLink, useParams } from 'react-router-dom'
+
+import { db } from '../../util/firebase'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -17,9 +18,9 @@ import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
+import TimeIcon from '@mui/icons-material/AccessTime'
 import BackIcon from '@mui/icons-material/ArrowBackIosNew'
 import EditIcon from '@mui/icons-material/Edit'
-import TimeIcon from '@mui/icons-material/AccessTime'
 
 export default function ViewRecipe() {
   const { id } = useParams()
@@ -52,7 +53,7 @@ export default function ViewRecipe() {
     <Paper sx={{ width: '100%', mb: 2 }}>
       {error && (
         <Box sx={{ marginTop: 1 }}>
-          <Alert severity='error'>
+          <Alert severity="error">
             <AlertTitle>Error:</AlertTitle>
             <pre>
               <code>{error.message}</code>
@@ -67,28 +68,28 @@ export default function ViewRecipe() {
         <Box sx={{ p: 2 }}>
           <Grid container spacing={1}>
             <Grid item xs={2}>
-              <Tooltip title='Back to Recipes'>
+              <Tooltip title="Back to Recipes">
                 <IconButton
-                  to='/recipes'
+                  to="/recipes"
                   component={RouterLink}
                   sx={{ ml: -1 }}
                 >
-                  <BackIcon fontSize='small' />
+                  <BackIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
             </Grid>
             <Grid item xs={8}>
-              <Typography variant='h6' sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
+              <Typography variant="h6" sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
                 {recipe.name}
               </Typography>
             </Grid>
             <Grid item xs={2} sx={{ textAlign: 'right' }}>
-              <Tooltip title='Edit recipe'>
+              <Tooltip title="Edit recipe">
                 <IconButton
                   component={RouterLink}
                   to={`/recipe/edit/${recipe.id}`}
                 >
-                  <EditIcon fontSize='small' />
+                  <EditIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
             </Grid>
@@ -100,14 +101,14 @@ export default function ViewRecipe() {
                 <Chip
                   icon={
                     <TimeIcon
-                      fontSize='small'
+                      fontSize="small"
                       sx={{ mr: 0.5, verticalAlign: 'bottom' }}
                     />
                   }
                   label={`${recipe.time}min`}
-                  size='small'
-                  variant='outlined'
-                  color='primary'
+                  size="small"
+                  variant="outlined"
+                  color="primary"
                   sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
                 />
               )}
@@ -117,8 +118,8 @@ export default function ViewRecipe() {
                   <Chip
                     key={i}
                     label={tag}
-                    size='small'
-                    variant='outlined'
+                    size="small"
+                    variant="outlined"
                     sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
                   />
                 ))}
@@ -127,7 +128,7 @@ export default function ViewRecipe() {
 
           {recipe.ingredients && recipe.ingredients.length && (
             <>
-              <Typography variant='subtitle2' sx={{ mt: 3 }}>
+              <Typography variant="subtitle2" sx={{ mt: 3 }}>
                 Ingredients
               </Typography>
               <List>
@@ -147,7 +148,7 @@ export default function ViewRecipe() {
 
           {recipe.steps && recipe.steps.length && (
             <>
-              <Typography variant='subtitle2' sx={{ mt: 2, mb: 0 }}>
+              <Typography variant="subtitle2" sx={{ mt: 2, mb: 0 }}>
                 Steps
               </Typography>
               <List>
@@ -175,7 +176,7 @@ export default function ViewRecipe() {
 
           {recipe.notes && (
             <>
-              <Typography variant='subtitle2' sx={{ mt: 2, mb: 0 }}>
+              <Typography variant="subtitle2" sx={{ mt: 2, mb: 0 }}>
                 Notes
               </Typography>
               <Typography
@@ -189,12 +190,12 @@ export default function ViewRecipe() {
 
           {recipe.source && (
             <>
-              <Typography variant='subtitle2' sx={{ mt: 3, mb: 0 }}>
+              <Typography variant="subtitle2" sx={{ mt: 3, mb: 0 }}>
                 Source
               </Typography>
               <Typography sx={{ mt: 1, mb: 0 }}>
                 {recipe.source && recipe.source.substr(0, 4) === 'http' && (
-                  <Link target='_blank' href={recipe.source}>
+                  <Link target="_blank" href={recipe.source}>
                     {recipe.source}
                   </Link>
                 )}

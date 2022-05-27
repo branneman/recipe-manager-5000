@@ -1,9 +1,10 @@
+import { ref, remove, set } from 'firebase/database'
 import { useState } from 'react'
+import { useListVals } from 'react-firebase-hooks/database'
 import { v4 as uuid } from 'uuid'
+
 import { db } from '../../util/firebase'
 import { activeSortedRecipes } from '../../util/sorting'
-import { ref, set, remove } from 'firebase/database'
-import { useListVals } from 'react-firebase-hooks/database'
 
 import RecipeTable from '../../components/recipes/RecipeTable'
 import RecipeToolbar from '../../components/recipes/RecipeToolbar'
@@ -90,7 +91,7 @@ export default function Recipes() {
     <Paper sx={{ width: '100%', mb: 2 }}>
       {error && (
         <Box sx={{ marginTop: 1 }}>
-          <Alert severity='error'>
+          <Alert severity="error">
             <AlertTitle>Error:</AlertTitle>
             <pre>
               <code>{error.message}</code>

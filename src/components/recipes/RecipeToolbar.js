@@ -1,15 +1,15 @@
 import AddDialog from '../add-dialog'
 
-import { alpha } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { alpha } from '@mui/material/styles'
 
 import AddIcon from '@mui/icons-material/Add'
+import MealPlanIcon from '@mui/icons-material/CalendarMonth'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import MealPlanIcon from '@mui/icons-material/CalendarMonth'
 
 export default function RecipeToolbar(props) {
   const {
@@ -40,26 +40,26 @@ export default function RecipeToolbar(props) {
         <>
           <Typography
             sx={{ flex: '1 1 100%' }}
-            variant='h6'
-            id='tableTitle'
-            component='div'
+            variant="h6"
+            id="tableTitle"
+            component="div"
           >
             Recipes
           </Typography>
 
           <AddDialog
-            title='Add recipe'
+            title="Add recipe"
             open={addDialogOpen}
             setAddDialogOpen={setAddDialogOpen}
             handleSubmit={handleAddDialogSubmit}
           />
-          <Tooltip title='Add recipe'>
+          <Tooltip title="Add recipe">
             <IconButton onClick={() => setAddDialogOpen(true)}>
               <AddIcon />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title='Filter'>
+          <Tooltip title="Filter">
             <span>
               <IconButton disabled>
                 <FilterListIcon />
@@ -74,19 +74,19 @@ export default function RecipeToolbar(props) {
         <>
           <Typography
             sx={{ flex: '1 1 100%' }}
-            color='inherit'
-            variant='subtitle1'
-            component='div'
+            color="inherit"
+            variant="subtitle1"
+            component="div"
           >
             {numSelected} selected
           </Typography>
 
-          <Tooltip title='Add to meal plan'>
+          <Tooltip title="Add to meal plan">
             <IconButton onClick={handleAddToMealPlan} disabled>
               <MealPlanIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title='Delete'>
+          <Tooltip title="Delete">
             <IconButton onClick={handleDelete}>
               <DeleteIcon />
             </IconButton>
