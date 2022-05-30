@@ -1,7 +1,9 @@
+import { DateTime } from 'luxon'
 import {
   addIndex,
   ascend,
   assoc,
+  filter,
   map,
   path,
   pipe,
@@ -10,6 +12,7 @@ import {
   sortWith,
   toPairs,
   uniqBy,
+  values,
 } from 'ramda'
 
 export const activeSortedRecipes = pipe(
@@ -17,10 +20,30 @@ export const activeSortedRecipes = pipe(
   sortBy(prop('name'))
 )
 
-export const activeSortedMealPlans = pipe(
-  uniqBy(prop('id')),
-  sortBy(prop('name'))
-)
+export const getCurrentMealPlans = (now) =>
+  filter((mealplan) => isCurrentMealPlan(mealplan, now))
+
+/**
+ * @param {Object<{ days: Object }>} mealplan
+ * @param {Luxon} now
+ * @returns {Boolean}
+ */
+export function isCurrentMealPlan(mealplan, now) {
+  const days = values(mealplan.days).length
+  if (days < 1) return false
+
+  const from = DateTime.fromISO(mealplan.start)
+  const to = from.plus({ days })
+
+  return Number(now) >= Number(from) && Number(now) <= Number(to)
+}
+
+export const activeSortedMealPlans = (now) =>
+  pipe(
+    filter((x) => !isCurrentMealPlan(x, now)),
+    uniqBy(prop('id')),
+    sortBy(prop('name'))
+  )
 
 export const activeSortedShoppingList = (xs) => {
   const f = pipe(
@@ -28,7 +51,6 @@ export const activeSortedShoppingList = (xs) => {
     uniqBy(prop('id')),
 
     // 1. Add a fake order (list.length) to items without order (sorting them last)
-    // map((x) => assoc('order', xs.length, x)),
     map((x) => (Number.isInteger(x.order) ? x : assoc('order', xs.length, x))),
 
     // 2. Sort by order, then by created date

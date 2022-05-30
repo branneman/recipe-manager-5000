@@ -81,7 +81,7 @@ export default function ViewMealPlan() {
 
         {days &&
           days.map(([id, day]) => (
-            <Box key={id} sx={{ mt: 2 }}>
+            <Box key={id} sx={{ mt: 2, mb: 3 }}>
               <Typography
                 variant="h6"
                 component="div"
@@ -102,7 +102,7 @@ export default function ViewMealPlan() {
                             sx={{
                               p: 0.75,
                               pl: 0,
-                              width: 12,
+                              width: 70,
                               verticalAlign: 'top',
                             }}
                           >

@@ -1,21 +1,19 @@
 import { ref, set } from 'firebase/database'
 import { DateTime } from 'luxon'
-import { useRef, useState } from 'react'
+import { values } from 'ramda'
+import { useState } from 'react'
 import { useListVals } from 'react-firebase-hooks/database'
-import { Link as RouterLink } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 
 import { db } from '../../util/firebase'
-import { activeSortedMealPlans } from '../../util/sorting'
+import { activeSortedMealPlans, getCurrentMealPlans } from '../../util/sorting'
 
 import AddDialog from '../../components/add-dialog'
+import MealPlan from '../../components/meal-plan'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
@@ -23,12 +21,14 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
 
 export default function MealPlans() {
+  const now = DateTime.now()
+
   const r = ref(db, 'meal-plans')
   const [mealplansList, mealplansLoading, error] = useListVals(r)
-  const mealplans = activeSortedMealPlans(mealplansList)
+  const mealplans = activeSortedMealPlans(now)(mealplansList)
+  const currentMealPlans = getCurrentMealPlans(now)(mealplansList)
 
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [addLoading, setAddLoading] = useState(false)
@@ -44,7 +44,6 @@ export default function MealPlans() {
     window.location.hash = '/meal-plans/edit/' + id
   }
 
-  const removeBtnRef = useRef(null)
   const removeMealplan = (id) => async (evt) => {
     setAddLoading(true)
     try {
@@ -54,19 +53,12 @@ export default function MealPlans() {
     }
     setAddLoading(false)
 
-    evt.preventDefault()
-    evt.stopPropagation()
     window.location.hash = '/meal-plans'
   }
 
   const onCardClick = (id) => (evt) => {
     // If delete was clicked, removeMealplan() gets called by another event handler
-    if (
-      evt.target === removeBtnRef.current ||
-      removeBtnRef.current.contains(evt.target) // E.g. the <svg> or <path> element
-    ) {
-      return
-    }
+    if (evt.target.closest('.is-delete-button')) return
 
     // If card was clicked, act as link
     window.location.hash = `/meal-plans/${id}`
@@ -89,6 +81,27 @@ export default function MealPlans() {
 
   return (
     <>
+      {currentMealPlans.length > 0 && (
+        <>
+          <Typography
+            sx={{ flex: '1 1 100%', pt: 0.5 }}
+            variant="h6"
+            id="tableTitle"
+            component="div"
+          >
+            Active Meal Plans
+          </Typography>
+          {values(currentMealPlans).map((mealplan) => (
+            <MealPlan
+              key={mealplan.id}
+              mealplan={mealplan}
+              onCardClick={onCardClick}
+              removeMealplan={removeMealplan}
+            />
+          ))}
+        </>
+      )}
+
       <Stack direction="row">
         <Typography
           sx={{ flex: '1 1 100%', pt: 0.5 }}
@@ -96,7 +109,7 @@ export default function MealPlans() {
           id="tableTitle"
           component="div"
         >
-          Meal Plans
+          All Meal Plans
         </Typography>
 
         <AddDialog
@@ -112,55 +125,13 @@ export default function MealPlans() {
         </Tooltip>
       </Stack>
 
-      {Object.values(mealplans).map((mealplan) => (
-        <Card
+      {values(mealplans).map((mealplan) => (
+        <MealPlan
           key={mealplan.id}
-          sx={{ minWidth: 275, cursor: 'pointer' }}
-          onClick={onCardClick(mealplan.id)}
-        >
-          <CardContent sx={{ pb: 0 }}>
-            <Grid container spacing={1} sx={{ mb: 2 }}>
-              <Grid item xs={10}>
-                <Typography
-                  component={RouterLink}
-                  to={`/meal-plans/${mealplan.id}`}
-                  variant="h5"
-                  color="text.primary"
-                  style={{ textDecoration: 'none' }}
-                >
-                  {mealplan.name}
-                </Typography>
-              </Grid>
-              <Grid item xs={2} sx={{ textAlign: 'right' }}>
-                <Tooltip title={`Delete ${mealplan.name}`}>
-                  <IconButton
-                    ref={removeBtnRef}
-                    onClick={removeMealplan(mealplan.id)}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            </Grid>
-
-            {mealplan.days && Object.values(mealplan.days).length && (
-              <Typography sx={{ mt: 2 }} color="text.secondary">
-                {Object.values(mealplan.days).length} day
-                {Object.values(mealplan.days).length > 1 ? 's' : ''}, starts at{' '}
-                {DateTime.fromISO(mealplan.start).toLocaleString(
-                  DateTime.DATE_HUGE,
-                  { locale: 'gb' }
-                )}
-              </Typography>
-            )}
-
-            {!mealplan.days && (
-              <Typography sx={{ mt: 2 }} color="text.secondary">
-                No days added yet
-              </Typography>
-            )}
-          </CardContent>
-        </Card>
+          mealplan={mealplan}
+          onCardClick={onCardClick}
+          removeMealplan={removeMealplan}
+        />
       ))}
 
       {mealplans.length === 0 && (

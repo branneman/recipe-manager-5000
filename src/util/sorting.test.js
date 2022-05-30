@@ -1,4 +1,5 @@
-import { activeSortedShoppingList } from './sorting'
+import { activeSortedShoppingList, isCurrentMealPlan } from './sorting'
+import { DateTime } from 'luxon'
 
 describe('activeSortedShoppingList()', () => {
   it('returns a list of unique items, by id', () => {
@@ -92,3 +93,66 @@ describe('activeSortedShoppingList()', () => {
     ])
   })
 })
+
+describe('isCurrentMealPlan()', () => {
+  it('returns true if now is between mealplan-start and end', () => {
+    const mealplan = {
+      start: '2022-06-01T00:00:00.000Z',
+      days: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {} },
+    }
+    const now = DateTime.fromISO('2022-06-03T00:00:00.000Z')
+
+    const result = isCurrentMealPlan(mealplan, now)
+
+    expect(result).toEqual(true)
+  })
+
+  it('returns false if now is before mealplan-start and end', () => {
+    const mealplan = {
+      start: '2022-06-01T00:00:00.000Z',
+      days: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {} },
+    }
+    const now = DateTime.fromISO('2022-05-30T00:00:00.000Z')
+
+    const result = isCurrentMealPlan(mealplan, now)
+
+    expect(result).toEqual(false)
+  })
+
+  it('returns false if now is after mealplan-start and end', () => {
+    const mealplan = {
+      start: '2022-06-01T00:00:00.000Z',
+      days: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {} },
+    }
+    const now = DateTime.fromISO('2022-06-10T00:00:00.000Z')
+
+    const result = isCurrentMealPlan(mealplan, now)
+
+    expect(result).toEqual(false)
+  })
+
+  it('returns true if mealplan is on its last day', () => {
+    const mealplan = {
+      start: '2022-06-01T00:00:00.000Z',
+      days: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {} },
+    }
+    const now = DateTime.fromISO('2022-06-05T23:59:59.999Z')
+
+    const result = isCurrentMealPlan(mealplan, now)
+
+    expect(result).toEqual(true)
+  })
+
+  it('returns false if mealplan has no days', () => {
+    const mealplan = {
+      start: '2022-06-01T00:00:00.000Z',
+      days: {},
+    }
+    const now = DateTime.fromISO('2022-06-01T00:00:00.000Z')
+
+    const result = isCurrentMealPlan(mealplan, now)
+
+    expect(result).toEqual(false)
+  })
+})
+1
