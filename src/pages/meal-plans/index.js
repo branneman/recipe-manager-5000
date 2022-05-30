@@ -1,6 +1,6 @@
 import { ref, set } from 'firebase/database'
 import { DateTime } from 'luxon'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useListVals } from 'react-firebase-hooks/database'
 import { Link as RouterLink } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
@@ -44,7 +44,8 @@ export default function MealPlans() {
     window.location.hash = '/meal-plans/edit/' + id
   }
 
-  const removeMealplan = (id) => async () => {
+  const removeBtnRef = useRef(null)
+  const removeMealplan = (id) => async (evt) => {
     setAddLoading(true)
     try {
       await set(ref(db, 'meal-plans/' + id), null)
@@ -52,6 +53,23 @@ export default function MealPlans() {
       // todo: report error
     }
     setAddLoading(false)
+
+    evt.preventDefault()
+    evt.stopPropagation()
+    window.location.hash = '/meal-plans'
+  }
+
+  const onCardClick = (id) => (evt) => {
+    // If delete was clicked, removeMealplan() gets called by another event handler
+    if (
+      evt.target === removeBtnRef.current ||
+      removeBtnRef.current.contains(evt.target) // E.g. the <svg> or <path> element
+    ) {
+      return
+    }
+
+    // If card was clicked, act as link
+    window.location.hash = `/meal-plans/${id}`
   }
 
   if (error) {
@@ -95,7 +113,11 @@ export default function MealPlans() {
       </Stack>
 
       {Object.values(mealplans).map((mealplan) => (
-        <Card key={mealplan.id} sx={{ minWidth: 275 }}>
+        <Card
+          key={mealplan.id}
+          sx={{ minWidth: 275, cursor: 'pointer' }}
+          onClick={onCardClick(mealplan.id)}
+        >
           <CardContent sx={{ pb: 0 }}>
             <Grid container spacing={1} sx={{ mb: 2 }}>
               <Grid item xs={10}>
@@ -111,7 +133,10 @@ export default function MealPlans() {
               </Grid>
               <Grid item xs={2} sx={{ textAlign: 'right' }}>
                 <Tooltip title={`Delete ${mealplan.name}`}>
-                  <IconButton onClick={removeMealplan(mealplan.id)}>
+                  <IconButton
+                    ref={removeBtnRef}
+                    onClick={removeMealplan(mealplan.id)}
+                  >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
