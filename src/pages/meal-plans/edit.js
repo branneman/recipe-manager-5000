@@ -127,7 +127,7 @@ export default function EditMealPlan() {
   if (mealplanLoading) return <Skeleton height={300} />
 
   return (
-    <Paper sx={{ width: '100%', mb: 2 }}>
+    <Paper sx={{ width: '100%' }}>
       <Box noValidate sx={{ p: 2 }}>
         <Grid container spacing={1} sx={{ mb: 2 }}>
           <Grid item xs={2}>
@@ -208,6 +208,7 @@ export default function EditMealPlan() {
                 label="Breakfast"
                 name="breakfast"
                 defaultValue={day.breakfast}
+                multiline
                 onBlur={(evt) => saveDay(id, 'breakfast', evt.target.value)}
                 onKeyPress={(evt) =>
                   callIfEnterKeyWasPressed(evt, () => evt.target.blur())
@@ -220,6 +221,7 @@ export default function EditMealPlan() {
                 label="Lunch"
                 name="lunch"
                 defaultValue={day.lunch}
+                multiline
                 onBlur={(evt) => saveDay(id, 'lunch', evt.target.value)}
                 onKeyPress={(evt) =>
                   callIfEnterKeyWasPressed(evt, () => evt.target.blur())
@@ -232,6 +234,7 @@ export default function EditMealPlan() {
                 label="Dinner"
                 name="dinner"
                 defaultValue={day.dinner}
+                multiline
                 onBlur={(evt) => saveDay(id, 'dinner', evt.target.value)}
                 onKeyPress={(evt) =>
                   callIfEnterKeyWasPressed(evt, () => evt.target.blur())

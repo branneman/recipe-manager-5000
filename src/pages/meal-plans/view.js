@@ -49,7 +49,7 @@ export default function ViewMealPlan() {
   if (loading) return <Skeleton height={300} />
 
   return (
-    <Paper sx={{ width: '100%', mb: 2 }}>
+    <Paper sx={{ width: '100%' }}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           <Grid item xs={2}>
@@ -109,8 +109,10 @@ export default function ViewMealPlan() {
                           >
                             {capitalise(meal)}:
                           </TableCell>
-                          <TableCell sx={{ p: 0.75, pr: 0 }}>
-                            <RecipeMeal text={day[meal]} />
+                          <TableCell
+                            sx={{ p: 0.75, pr: 0, whiteSpace: 'pre-line' }}
+                          >
+                            <RecipeMeal text={day[meal]} linkify={true} />
                           </TableCell>
                         </TableRow>
                       )

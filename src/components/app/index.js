@@ -49,7 +49,12 @@ export default function App() {
       <CssBaseline />
       <Container maxWidth="sm" sx={{ mt: 2 }}>
         <UpdateCheck appVersion={pkg.version}>
-          <Stack justifyContent="flex-start" alignItems="stretch" spacing={2}>
+          <Stack
+            justifyContent="flex-start"
+            alignItems="stretch"
+            spacing={2}
+            sx={{ mb: 2 }}
+          >
             <Header version={pkg.version} user={user} />
             <Outlet />
           </Stack>

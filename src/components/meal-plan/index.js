@@ -121,7 +121,9 @@ export default function MealPlan(props) {
                           >
                             {capitalise(meal)}:
                           </TableCell>
-                          <TableCell sx={{ p: 0.75, pr: 0 }}>
+                          <TableCell
+                            sx={{ p: 0.75, pr: 0, whiteSpace: 'pre-line' }}
+                          >
                             <RecipeMeal text={currentDay[meal]} />
                           </TableCell>
                         </TableRow>
