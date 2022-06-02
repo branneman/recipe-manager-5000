@@ -44,7 +44,7 @@ export default function MealPlans() {
     window.location.hash = '/meal-plans/edit/' + id
   }
 
-  const removeMealplan = (id) => async (evt) => {
+  const deleteMealplan = (id) => async (evt) => {
     setAddLoading(true)
     try {
       await set(ref(db, 'meal-plans/' + id), null)
@@ -57,7 +57,7 @@ export default function MealPlans() {
   }
 
   const onCardClick = (id) => (evt) => {
-    // If delete was clicked, removeMealplan() gets called by another event handler
+    // If delete was clicked, deleteMealplan() gets called by another event handler
     if (evt.target.closest('.is-delete-button')) return
 
     // If card was clicked, act as link
@@ -96,7 +96,7 @@ export default function MealPlans() {
               key={mealplan.id}
               mealplan={mealplan}
               onCardClick={onCardClick}
-              removeMealplan={removeMealplan}
+              deleteMealplan={deleteMealplan}
             />
           ))}
         </>
@@ -130,7 +130,7 @@ export default function MealPlans() {
           key={mealplan.id}
           mealplan={mealplan}
           onCardClick={onCardClick}
-          removeMealplan={removeMealplan}
+          deleteMealplan={deleteMealplan}
         />
       ))}
 

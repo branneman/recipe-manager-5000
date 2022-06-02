@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 export default function MealPlan(props) {
-  const { mealplan, onCardClick, removeMealplan } = props
+  const { mealplan, onCardClick, deleteMealplan } = props
 
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
 
@@ -25,7 +25,7 @@ export default function MealPlan(props) {
       <ConfirmDialog
         isOpen={confirmDeleteDialogOpen}
         setOpen={setConfirmDeleteDialogOpen}
-        onConfirm={removeMealplan(mealplan.id)}
+        onConfirm={deleteMealplan(mealplan.id)}
         title="Delete meal plan?"
         text={`The following meal plan will be deleted: ${mealplan.name}`}
         confirmText="Delete"

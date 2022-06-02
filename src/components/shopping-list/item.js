@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
-import RemoveFromListIcon from '@mui/icons-material/PlaylistRemove'
+import DeleteFromListIcon from '@mui/icons-material/PlaylistRemove'
 
 export default function ShoppingListItem(props) {
   const {
@@ -98,12 +98,12 @@ export default function ShoppingListItem(props) {
         </Typography>
       )}
 
-      <Tooltip title="Remove item">
+      <Tooltip title="Delete item">
         <IconButton
           onClick={deleteItem(item.id)}
           sx={{ ml: -1, alignSelf: 'start' }}
         >
-          <RemoveFromListIcon fontSize="small" />
+          <DeleteFromListIcon fontSize="small" />
         </IconButton>
       </Tooltip>
     </ListItem>

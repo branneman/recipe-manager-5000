@@ -100,13 +100,13 @@ export default function ShoppingList() {
 
   const deleteItem = (id) => async (_event) => {
     try {
-      // Remove item
+      // Delete item
       await remove(ref(db, 'shopping-list/' + id))
 
       // Reset all orders
-      const listWithoutRemovedItem = filter(complement(propEq('id', id)), list)
+      const listWithoutDeletedItem = filter(complement(propEq('id', id)), list)
       const ops = {}
-      for (const [i, item] of toPairs(listWithoutRemovedItem)) {
+      for (const [i, item] of toPairs(listWithoutDeletedItem)) {
         ops[`shopping-list/${item.id}/order`] = Number(i) + 1
       }
       await update(ref(db), ops)

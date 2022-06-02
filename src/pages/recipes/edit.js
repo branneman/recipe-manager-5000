@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 import AddToListIcon from '@mui/icons-material/PlaylistAdd'
-import RemoveFromListIcon from '@mui/icons-material/PlaylistRemove'
+import DeleteFromListIcon from '@mui/icons-material/PlaylistRemove'
 
 export default function EditRecipe() {
   const { id } = useParams()
@@ -52,14 +52,14 @@ export default function EditRecipe() {
     setIngredients(
       concat(ingredients, [{ id: uuid(), text: '', enabled: true }])
     )
-  const removeIngredient = (key) => () =>
+  const deleteIngredient = (key) => () =>
     setIngredients(remove(key, 1, ingredients))
 
   const [steps, setSteps] = useState(null)
   if (!error && !recipeLoading && steps === null) setSteps(recipe.steps || [])
   const addStep = () =>
     setSteps(concat(steps, [{ id: uuid(), text: '', enabled: true }]))
-  const removeStep = (key) => () => setSteps(remove(key, 1, steps))
+  const deleteStep = (key) => () => setSteps(remove(key, 1, steps))
 
   const loading = recipeLoading || saveLoading
 
@@ -125,12 +125,12 @@ export default function EditRecipe() {
                     variant="standard"
                     fullWidth
                   />
-                  <Tooltip title="Remove ingredient">
+                  <Tooltip title="Delete ingredient">
                     <IconButton
-                      onClick={removeIngredient(i)}
+                      onClick={deleteIngredient(i)}
                       sx={{ ml: -1, alignSelf: 'start' }}
                     >
-                      <RemoveFromListIcon fontSize="small" />
+                      <DeleteFromListIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </ListItem>
@@ -162,12 +162,12 @@ export default function EditRecipe() {
                     variant="standard"
                     fullWidth
                   />
-                  <Tooltip title="Remove step">
+                  <Tooltip title="Delete step">
                     <IconButton
-                      onClick={removeStep(i)}
+                      onClick={deleteStep(i)}
                       sx={{ ml: -1, alignSelf: 'start' }}
                     >
-                      <RemoveFromListIcon fontSize="small" />
+                      <DeleteFromListIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 </ListItem>

@@ -51,7 +51,7 @@ export const activeSortedMealPlans = (now) =>
 
 export const activeSortedShoppingList = (xs) => {
   const f = pipe(
-    // 0. Uniq by id, remove duplicates
+    // 0. Uniq by id, delete duplicates
     uniqBy(prop('id')),
 
     // 1. Add a fake order (list.length) to items without order (sorting them last)

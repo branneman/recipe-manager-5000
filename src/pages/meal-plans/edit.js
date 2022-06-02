@@ -90,18 +90,18 @@ export default function EditMealPlan() {
     setSaveLoading(false)
   }
 
-  const removeDay = (removeDay) => async () => {
+  const deleteDay = (deleteDay) => async () => {
     setSaveLoading(true)
     try {
       const ops = {}
 
-      // Remove a day
-      ops[`meal-plans/${mealplan.id}/days/${removeDay}`] = null
+      // Delete a day
+      ops[`meal-plans/${mealplan.id}/days/${deleteDay}`] = null
 
       // Reset `day` numbers
       let dayNumber = -1
       for (const [id] of days) {
-        if (id === removeDay) continue
+        if (id === deleteDay) continue
         ops[`meal-plans/${mealplan.id}/days/${id}/day`] = ++dayNumber
       }
       await update(ref(db), ops)
@@ -193,9 +193,9 @@ export default function EditMealPlan() {
                   </Typography>
                 </Grid>
                 <Grid item xs={2} sx={{ textAlign: 'right' }}>
-                  <Tooltip title={`Remove day ${day.day + 1}`}>
+                  <Tooltip title={`Delete day ${day.day + 1}`}>
                     <IconButton
-                      onClick={removeDay(id)}
+                      onClick={deleteDay(id)}
                       sx={{ mr: -1.5, alignSelf: 'start' }}
                     >
                       <DeleteIcon fontSize="small" />
