@@ -81,11 +81,12 @@ export default function RecipeToolbar(props) {
             {numSelected} selected
           </Typography>
 
-          <Tooltip title="Add to meal plan">
-            <IconButton onClick={handleAddToMealPlan} disabled>
-              <MealPlanIcon />
-            </IconButton>
-          </Tooltip>
+          {/* <Tooltip title="Add to meal plan"> */}
+          <IconButton onClick={handleAddToMealPlan} disabled>
+            <MealPlanIcon />
+          </IconButton>
+          {/* </Tooltip> */}
+
           <Tooltip title="Delete">
             <IconButton onClick={handleDelete}>
               <DeleteIcon />
