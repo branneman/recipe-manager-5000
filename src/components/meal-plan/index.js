@@ -3,12 +3,21 @@ import { values } from 'ramda'
 import { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
-import ConfirmDialog from '../../components/confirm-dialog'
+import { currentMealplanDay, isCurrentMealPlan } from '../../util/sorting'
+import { capitalise } from '../../util/string'
 
+import ConfirmDialog from '../../components/confirm-dialog'
+import RecipeMeal from '../../components/recipes/RecipeMeal'
+
+import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
@@ -17,7 +26,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 export default function MealPlan(props) {
   const { mealplan, onCardClick, deleteMealplan } = props
 
+  const now = DateTime.now()
+
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
+
+  let currentDay = null
+  if (mealplan.days && isCurrentMealPlan(mealplan, now)) {
+    currentDay = currentMealplanDay(mealplan, now)
+  }
 
   return (
     <>
@@ -32,7 +48,7 @@ export default function MealPlan(props) {
       />
 
       <Card
-        sx={{ minWidth: 275, cursor: 'pointer' }}
+        sx={{ mb: 2, cursor: 'pointer' }}
         onClick={onCardClick(mealplan.id)}
       >
         <CardContent sx={{ pb: 0 }}>
@@ -75,6 +91,45 @@ export default function MealPlan(props) {
             <Typography sx={{ mt: 2 }} color="text.secondary">
               No days added yet
             </Typography>
+          )}
+
+          {currentDay && (
+            <Box sx={{ mt: 2, mb: 3 }}>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ fontSize: '18px' }}
+              >
+                Day {currentDay.day + 1}:{' '}
+                {DateTime.fromISO(mealplan.start)
+                  .plus({ days: currentDay.day })
+                  .toFormat('ccc dd LLL')}
+              </Typography>
+              <Table size="small">
+                <TableBody>
+                  {['breakfast', 'lunch', 'dinner'].map(
+                    (meal) =>
+                      currentDay[meal] && (
+                        <TableRow key={meal}>
+                          <TableCell
+                            sx={{
+                              p: 0.75,
+                              pl: 0,
+                              width: 70,
+                              verticalAlign: 'top',
+                            }}
+                          >
+                            {capitalise(meal)}:
+                          </TableCell>
+                          <TableCell sx={{ p: 0.75, pr: 0 }}>
+                            <RecipeMeal text={currentDay[meal]} />
+                          </TableCell>
+                        </TableRow>
+                      )
+                  )}
+                </TableBody>
+              </Table>
+            </Box>
           )}
         </CardContent>
       </Card>

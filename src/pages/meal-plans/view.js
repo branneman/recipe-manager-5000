@@ -2,17 +2,18 @@ import { ref } from 'firebase/database'
 import { DateTime } from 'luxon'
 import { useObjectVal } from 'react-firebase-hooks/database'
 import { Link as RouterLink, useParams } from 'react-router-dom'
-import { validate as isUuid } from 'uuid'
 
 import { db } from '../../util/firebase'
 import { sortedMealplanDays } from '../../util/sorting'
+import { capitalise } from '../../util/string'
+
+import RecipeMeal from '../../components/recipes/RecipeMeal'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
-import Link from '@mui/material/Link'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import Table from '@mui/material/Table'
@@ -121,46 +122,4 @@ export default function ViewMealPlan() {
       </Box>
     </Paper>
   )
-}
-
-function RecipeMeal(props) {
-  const { text } = props
-
-  if (isUuid(text)) return <RecipeMention id={text} />
-  if (text.startsWith('http')) return <Link href={text}>{text}</Link>
-  return text
-}
-
-function RecipeMention(props) {
-  const { id } = props
-
-  const [recipe, loading, error] = useObjectVal(ref(db, 'recipes/' + id))
-
-  if (error)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Could not load recipe</AlertTitle>
-      </Alert>
-    )
-
-  if (loading) return <Skeleton />
-
-  return (
-    <Typography
-      component={RouterLink}
-      to={`/recipe/${recipe.id}`}
-      color="text.primary"
-      style={{
-        fontSize: '0.875rem',
-        fontWeight: 'bold',
-        textDecoration: 'none',
-      }}
-    >
-      {recipe.name}
-    </Typography>
-  )
-}
-
-function capitalise(s) {
-  return s.substr(0, 1).toUpperCase() + s.substr(1)
 }

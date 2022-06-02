@@ -42,12 +42,29 @@ export function isCurrentMealPlan(mealplan, now) {
   return Number(now) >= Number(from) && Number(now) <= Number(to)
 }
 
+export const currentMealplanDay = (mealplan, now) => {
+  const day2iso = (day) =>
+    DateTime.fromISO(mealplan.start).plus({ days: day.day }).toISODate()
+  const addDateProp = (day) => assoc('date', day2iso(day), day)
+
+  const f = pipe(
+    prop('days'),
+    sortedMealplanDays,
+    map(prop('1')),
+    map(addDateProp),
+    find(propEq('date', now.toISODate()))
+  )
+  return f(mealplan)
+}
+
 export const activeSortedMealPlans = (now) =>
   pipe(
     filter((x) => !isCurrentMealPlan(x, now)),
     uniqBy(prop('id')),
     sortBy(prop('name'))
   )
+
+export const sortedMealplanDays = pipe(toPairs, sortBy(path(['1', 'day'])))
 
 export const activeSortedShoppingList = (xs) => {
   const f = pipe(
@@ -67,5 +84,3 @@ export const activeSortedShoppingList = (xs) => {
 
   return f(xs)
 }
-
-export const sortedMealplanDays = pipe(toPairs, sortBy(path(['1', 'day'])))
