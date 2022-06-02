@@ -4,8 +4,9 @@ import { useListVals } from 'react-firebase-hooks/database'
 import { v4 as uuid } from 'uuid'
 
 import { db } from '../../util/firebase'
-import { activeSortedRecipes } from '../../util/sorting'
+import { activeSortedRecipes, findRecipe } from '../../util/sorting'
 
+import ConfirmDialog from '../../components/confirm-dialog'
 import RecipeTable from '../../components/recipes/RecipeTable'
 import RecipeToolbar from '../../components/recipes/RecipeToolbar'
 
@@ -69,6 +70,7 @@ export default function Recipes() {
     window.location.hash = '/recipe/edit/' + id
   }
 
+  const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
   const handleDelete = async () => {
     setDeleteLoading(true)
@@ -104,12 +106,31 @@ export default function Recipes() {
 
       {!error && !loading && recipes && (
         <>
+          <ConfirmDialog
+            isOpen={confirmDeleteDialogOpen}
+            setOpen={setConfirmDeleteDialogOpen}
+            onConfirm={handleDelete}
+            title="Delete recipes?"
+            text={
+              <>
+                <span style={{ display: 'block', marginBottom: '12px' }}>
+                  The following recipes will be deleted:
+                </span>
+                {selected.map((id) => (
+                  <span key={id} style={{ display: 'block', margin: 0 }}>
+                    – {findRecipe(id, recipes).name}
+                  </span>
+                ))}
+              </>
+            }
+            confirmText="Delete"
+          />
           <RecipeToolbar
             numSelected={selected.length}
             addDialogOpen={addDialogOpen}
             setAddDialogOpen={setAddDialogOpen}
             handleAddDialogSubmit={handleAddDialogSubmit}
-            handleDelete={handleDelete}
+            handleDelete={() => setConfirmDeleteDialogOpen(true)}
             handleAddToMealPlan={handleAddToMealPlan}
           />
           <RecipeTable

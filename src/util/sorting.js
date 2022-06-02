@@ -4,10 +4,12 @@ import {
   ascend,
   assoc,
   filter,
+  find,
   map,
   path,
   pipe,
   prop,
+  propEq,
   sortBy,
   sortWith,
   toPairs,
@@ -19,6 +21,8 @@ export const activeSortedRecipes = pipe(
   uniqBy(prop('id')),
   sortBy(prop('name'))
 )
+
+export const findRecipe = (id, recipes) => find(propEq('id', id), recipes)
 
 export const getCurrentMealPlans = (now) =>
   filter((mealplan) => isCurrentMealPlan(mealplan, now))
