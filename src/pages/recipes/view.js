@@ -1,8 +1,12 @@
-import { ref, update } from 'firebase/database'
-import { useObjectVal } from 'react-firebase-hooks/database'
+import { ref, set, update } from 'firebase/database'
+import { DateTime } from 'luxon'
+import { filter, prop, toPairs } from 'ramda'
+import { useListVals, useObjectVal } from 'react-firebase-hooks/database'
 import { Link as RouterLink, useParams } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
 
 import { db } from '../../util/firebase'
+import { activeSortedShoppingList } from '../../util/sorting'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -21,11 +25,37 @@ import Typography from '@mui/material/Typography'
 import TimeIcon from '@mui/icons-material/AccessTime'
 import BackIcon from '@mui/icons-material/ArrowBackIosNew'
 import EditIcon from '@mui/icons-material/Edit'
+import AddToListIcon from '@mui/icons-material/PlaylistAdd'
 
 export default function ViewRecipe() {
   const { id } = useParams()
 
-  const [recipe, loading, error] = useObjectVal(ref(db, 'recipes/' + id))
+  const [recipe, recipeLoading, recipeError] = useObjectVal(
+    ref(db, 'recipes/' + id)
+  )
+  const [rawList, listLoading, listError] = useListVals(
+    ref(db, 'shopping-list')
+  )
+  const list = activeSortedShoppingList(rawList)
+  const loading = recipeLoading || listLoading
+  const error = recipeError || listError
+
+  const addIngredientsToShoppingList = async () => {
+    const ingredientsToAdd = filter(prop('enabled'), recipe.ingredients)
+    console.log('ingredientsToAdd', ingredientsToAdd)
+
+    for (const [i, ingredient] of toPairs(ingredientsToAdd)) {
+      const id = uuid()
+      const now = DateTime.now().toUTC().toISO()
+      await set(ref(db, 'shopping-list/' + id), {
+        id,
+        text: ingredient.text,
+        created: now,
+        lastUpdated: now,
+        order: Number(list.length) + Number(i) + 1,
+      })
+    }
+  }
 
   const toggleIngredient = (ingredientId) => async () => {
     try {
@@ -127,15 +157,24 @@ export default function ViewRecipe() {
           )}
 
           {recipe.ingredients && recipe.ingredients.length && (
-            <>
-              <Typography variant="subtitle2" sx={{ mt: 3 }}>
-                Ingredients
-              </Typography>
+            <Grid container spacing={1} sx={{ mt: 3 }}>
+              <Grid item xs={10}>
+                <Typography variant="subtitle2" sx={{ display: 'block' }}>
+                  Ingredients
+                </Typography>
+              </Grid>
+              <Grid item xs={2} sx={{ mt: -1, textAlign: 'right' }}>
+                <Tooltip title="Add to shoppinglist">
+                  <IconButton onClick={addIngredientsToShoppingList}>
+                    <AddToListIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
               <List>
                 {recipe.ingredients.map((ingredient, i) => (
                   <ListItem
                     key={i}
-                    sx={{ p: 0, cursor: 'pointer' }}
+                    sx={{ p: 0, pl: 1, cursor: 'pointer' }}
                     disabled={!ingredient.enabled}
                     onClick={toggleIngredient(i)}
                   >
@@ -143,7 +182,7 @@ export default function ViewRecipe() {
                   </ListItem>
                 ))}
               </List>
-            </>
+            </Grid>
           )}
 
           {recipe.steps && recipe.steps.length && (
