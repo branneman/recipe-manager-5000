@@ -76,7 +76,7 @@ export default function MealPlan(props) {
             </Grid>
           </Grid>
 
-          {mealplan.days && values(mealplan.days).length && (
+          {mealplan.start && mealplan.days && values(mealplan.days).length && (
             <Typography sx={{ mt: 2 }} color="text.secondary">
               {values(mealplan.days).length} day
               {values(mealplan.days).length > 1 ? 's' : ''}, starts at{' '}
@@ -87,9 +87,9 @@ export default function MealPlan(props) {
             </Typography>
           )}
 
-          {!mealplan.days && (
+          {(!mealplan.start || !mealplan.days) && (
             <Typography sx={{ mt: 2 }} color="text.secondary">
-              No days added yet
+              No start date or days added yet
             </Typography>
           )}
 

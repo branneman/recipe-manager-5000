@@ -11,6 +11,7 @@ import EditMealPlan from './pages/meal-plans/edit'
 import ViewMealPlan from './pages/meal-plans/view'
 import Recipes from './pages/recipes'
 import EditRecipe from './pages/recipes/edit'
+import SelectRecipe from './pages/recipes/select'
 import ViewRecipe from './pages/recipes/view'
 import ShoppingList from './pages/shopping-list'
 
@@ -35,6 +36,10 @@ root.render(
               <Route path="meal-plans" element={<MealPlans />} />
               <Route path="meal-plans/:id" element={<ViewMealPlan />} />
               <Route path="meal-plans/edit/:id" element={<EditMealPlan />} />
+              <Route
+                path="meal-plans/select-recipe/:id/:day/:meal"
+                element={<SelectRecipe />}
+              />
               <Route path="shopping-list" element={<ShoppingList />} />
             </Route>
             <Route path="*" element={<p>404 Page Not Found</p>} />

@@ -80,7 +80,8 @@ export default function ViewMealPlan() {
           </Grid>
         </Grid>
 
-        {days &&
+        {mealplan.start &&
+          days &&
           days.map(([id, day]) => (
             <Box key={id} sx={{ mt: 2, mb: 3 }}>
               <Typography

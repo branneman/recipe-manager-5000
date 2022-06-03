@@ -5,21 +5,16 @@ import { Link as RouterLink } from 'react-router-dom'
 import { db } from '../../util/firebase'
 
 import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 
 export default function RecipeMention(props) {
-  const { id } = props
+  const { id, style } = props
 
   const [recipe, loading, error] = useObjectVal(ref(db, 'recipes/' + id))
 
-  if (error)
-    return (
-      <Alert severity="error">
-        <AlertTitle>Could not load recipe</AlertTitle>
-      </Alert>
-    )
+  if (error || (!loading && recipe === null))
+    return <Alert severity="error">Could not load recipe</Alert>
 
   if (loading) return <Skeleton />
 
@@ -32,6 +27,7 @@ export default function RecipeMention(props) {
         fontSize: '0.875rem',
         fontWeight: 'bold',
         textDecoration: 'none',
+        ...(style || {}),
       }}
     >
       {recipe.name}

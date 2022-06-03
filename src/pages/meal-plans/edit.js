@@ -6,11 +6,14 @@ import { DateTime } from 'luxon'
 import { useState } from 'react'
 import { useObjectVal } from 'react-firebase-hooks/database'
 import { Link as RouterLink, useParams } from 'react-router-dom'
-import { v4 as uuid } from 'uuid'
+import { validate as isUuid, v4 as uuid } from 'uuid'
 
 import { callIfEnterKeyWasPressed } from '../../util/dom'
 import { db } from '../../util/firebase'
 import { sortedMealplanDays } from '../../util/sorting'
+import { capitalise } from '../../util/string'
+
+import RecipeMention from '../../components/recipes/RecipeMention'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -20,12 +23,15 @@ import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
+import AddLink from '@mui/icons-material/AddLink'
 import BackIcon from '@mui/icons-material/ArrowBackIosNew'
 import DeleteIcon from '@mui/icons-material/Delete'
+import LinkOff from '@mui/icons-material/LinkOff'
 import AddToListIcon from '@mui/icons-material/PlaylistAdd'
 
 export default function EditMealPlan() {
@@ -128,7 +134,7 @@ export default function EditMealPlan() {
 
   return (
     <Paper sx={{ width: '100%' }}>
-      <Box noValidate sx={{ p: 2 }}>
+      <Box sx={{ p: 2 }}>
         <Grid container spacing={1} sx={{ mb: 2 }}>
           <Grid item xs={2}>
             <Tooltip title="Back to Meal Plans">
@@ -166,21 +172,22 @@ export default function EditMealPlan() {
           <DatePicker
             label="First day"
             value={startDate}
-            onChange={(d) => saveStartDate(d.toISODate())}
+            onChange={(d) => d && saveStartDate(d.toISODate())}
             renderInput={(params) => (
               <TextField {...params} variant="standard" fullWidth />
             )}
           />
         </LocalizationProvider>
 
-        {days && (
+        {startDate && days && (
           <Typography variant="body2" sx={{ mt: 3 }}>
-            Tip: the Breakfast, Lunch and Dinner fields accepts plain text, a
-            link, or a recipe ID
+            Tip: the Breakfast, Lunch and Dinner fields accept plain/multiline
+            text, a URL, or a recipe ID.
           </Typography>
         )}
 
-        {days &&
+        {startDate &&
+          days &&
           days.map(([id, day]) => (
             <Box key={id}>
               <Grid container spacing={1} sx={{ mt: 4, mb: 1 }}>
@@ -204,51 +211,70 @@ export default function EditMealPlan() {
                 </Grid>
               </Grid>
 
-              <TextField
-                label="Breakfast"
-                name="breakfast"
-                defaultValue={day.breakfast}
-                multiline
-                onBlur={(evt) => saveDay(id, 'breakfast', evt.target.value)}
-                onKeyPress={(evt) =>
-                  callIfEnterKeyWasPressed(evt, () => evt.target.blur())
-                }
-                variant="standard"
-                fullWidth
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Lunch"
-                name="lunch"
-                defaultValue={day.lunch}
-                multiline
-                onBlur={(evt) => saveDay(id, 'lunch', evt.target.value)}
-                onKeyPress={(evt) =>
-                  callIfEnterKeyWasPressed(evt, () => evt.target.blur())
-                }
-                variant="standard"
-                fullWidth
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Dinner"
-                name="dinner"
-                defaultValue={day.dinner}
-                multiline
-                onBlur={(evt) => saveDay(id, 'dinner', evt.target.value)}
-                onKeyPress={(evt) =>
-                  callIfEnterKeyWasPressed(evt, () => evt.target.blur())
-                }
-                variant="standard"
-                fullWidth
-                sx={{ mb: 2 }}
-              />
+              {['breakfast', 'lunch', 'dinner'].map((meal) => (
+                <Stack
+                  key={`${id}-${day.day}-${meal}`}
+                  direction="row"
+                  alignItems="flex-start"
+                >
+                  {isUuid(day[meal]) ? (
+                    <>
+                      <Tooltip title="Remove linked recipe" sx={{ ml: -1 }}>
+                        <IconButton
+                          onClick={() => saveDay(id, meal, '')}
+                          fontSize="small"
+                        >
+                          <LinkOff />
+                        </IconButton>
+                      </Tooltip>
+                      <RecipeMention
+                        id={day[meal]}
+                        style={{ marginTop: '8px', fontSize: '16px' }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Tooltip title="Select a recipe" sx={{ mt: 1, ml: -1 }}>
+                        <IconButton
+                          component={RouterLink}
+                          to={`/meal-plans/select-recipe/${mealplan.id}/${day.day}/${meal}`}
+                          fontSize="small"
+                        >
+                          <AddLink />
+                        </IconButton>
+                      </Tooltip>
+                      <TextField
+                        label={capitalise(meal)}
+                        name={meal}
+                        defaultValue={day[meal]}
+                        multiline
+                        onBlur={(evt) => saveDay(id, meal, evt.target.value)}
+                        variant="standard"
+                        fullWidth
+                        size="small"
+                        sx={{ mb: 2 }}
+                      />
+                    </>
+                  )}
+                </Stack>
+              ))}
             </Box>
           ))}
 
+        {!days && (
+          <Alert severity="warning" sx={{ mt: 3 }}>
+            This is an empty meal plan, start by selecting the first day, then
+            adding days.
+          </Alert>
+        )}
+
         <Grid container spacing={1} sx={{ mt: 2 }}>
           <Grid item xs={6}>
-            <Button onClick={addDay} startIcon={<AddToListIcon />}>
+            <Button
+              onClick={addDay}
+              startIcon={<AddToListIcon />}
+              disabled={!startDate}
+            >
               Add a day
             </Button>
           </Grid>
