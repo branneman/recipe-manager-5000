@@ -44,8 +44,8 @@ export default function RecipeTable(props) {
         <TableBody>
           {recipes.map((recipe) => (
             <TableRow
-              role="checkbox"
               key={recipe.id}
+              role="checkbox"
               selected={isSelected(recipe.id)}
             >
               <TableCell padding="checkbox">

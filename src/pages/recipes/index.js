@@ -1,4 +1,17 @@
 import { ref, remove, set } from 'firebase/database'
+import {
+  complement,
+  concat,
+  equals,
+  filter,
+  flatten,
+  intersection,
+  map,
+  pipe,
+  prop,
+  sort,
+  uniq,
+} from 'ramda'
 import { useState } from 'react'
 import { useListVals } from 'react-firebase-hooks/database'
 import { v4 as uuid } from 'uuid'
@@ -13,8 +26,10 @@ import RecipeToolbar from '../../components/recipes/RecipeToolbar'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
+import Stack from '@mui/material/Stack'
 
 export default function Recipes() {
   const [recipesList, recipesLoading, error] = useListVals(ref(db, 'recipes'))
@@ -87,6 +102,19 @@ export default function Recipes() {
 
   const handleAddToMealPlan = () => {}
 
+  // prettier-ignore
+  const [filters, setFilters] = useState([])
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const filterIsActive = (tag) => filters.includes(tag)
+  const toggleFilter = (tag) =>
+    setFilters(
+      filterIsActive(tag)
+        ? filter(complement(equals(tag)), filters)
+        : concat(filters, [tag])
+    )
+
+  const filteredRecipes = filterRecipesOnTags(filters, recipes)
+
   const loading = recipesLoading || addLoading || deleteLoading
 
   return (
@@ -125,6 +153,7 @@ export default function Recipes() {
             }
             confirmText="Delete"
           />
+
           <RecipeToolbar
             numSelected={selected.length}
             addDialogOpen={addDialogOpen}
@@ -132,9 +161,28 @@ export default function Recipes() {
             handleAddDialogSubmit={handleAddDialogSubmit}
             handleDelete={() => setConfirmDeleteDialogOpen(true)}
             handleAddToMealPlan={handleAddToMealPlan}
+            filters={filters}
+            filtersOpen={filtersOpen}
+            setFiltersOpen={setFiltersOpen}
           />
+          {filtersOpen && (
+            <Stack direction="row" sx={{ ml: 2, mr: 2, flexWrap: 'wrap' }}>
+              {allTags(recipes).map((tag) => (
+                <Chip
+                  key={`filter-tag-${tag}`}
+                  onClick={() => toggleFilter(tag)}
+                  label={tag}
+                  variant={filterIsActive(tag) ? 'filled' : 'outlined'}
+                  {...(filterIsActive(tag) ? { color: 'primary' } : {})}
+                  size="small"
+                  sx={{ mr: 1, mb: 1, cursor: 'pointer' }}
+                />
+              ))}
+            </Stack>
+          )}
+
           <RecipeTable
-            recipes={recipes}
+            recipes={filteredRecipes}
             selected={selected}
             isSelected={isSelected}
             handleSelectOneClick={handleSelectOneClick}
@@ -144,4 +192,16 @@ export default function Recipes() {
       )}
     </Paper>
   )
+}
+
+const allTags = pipe(
+  map(prop('tags')),
+  flatten,
+  uniq,
+  sort((a, b) => a.localeCompare(b))
+)
+
+function filterRecipesOnTags(filters, recipes) {
+  if (!filters.length) return recipes
+  return filter((recipe) => intersection(recipe.tags, filters).length, recipes)
 }

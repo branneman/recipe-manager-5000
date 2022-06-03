@@ -19,6 +19,9 @@ export default function RecipeToolbar(props) {
     handleAddDialogSubmit,
     handleDelete,
     handleAddToMealPlan,
+    filters,
+    filtersOpen,
+    setFiltersOpen,
   } = props
 
   return (
@@ -60,11 +63,13 @@ export default function RecipeToolbar(props) {
           </Tooltip>
 
           <Tooltip title="Filter">
-            <span>
-              <IconButton disabled>
-                <FilterListIcon />
-              </IconButton>
-            </span>
+            <IconButton onClick={() => setFiltersOpen(!filtersOpen)}>
+              <FilterListIcon
+                color={
+                  filtersOpen ? 'primary' : filters.length ? 'primary' : ''
+                }
+              />
+            </IconButton>
           </Tooltip>
         </>
       )}
