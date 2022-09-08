@@ -203,5 +203,8 @@ const allTags = pipe(
 
 function filterRecipesOnTags(filters, recipes) {
   if (!filters.length) return recipes
-  return filter((recipe) => intersection(recipe.tags, filters).length, recipes)
+  return filter(
+    (recipe) => intersection(recipe.tags || [], filters).length,
+    recipes
+  )
 }

@@ -142,8 +142,10 @@ function search(recipes, q) {
   if (q.length <= 2) return []
 
   const isMatch = (recipe) => {
-    if (recipe.name.toLowerCase().includes(q.toLowerCase())) return true
-    if (recipe.tags.includes(q)) return true
+    if (recipe.name && recipe.name.toLowerCase().includes(q.toLowerCase()))
+      return true
+    if (recipe.tags && recipe.tags.includes(q)) return true
+    return false
   }
 
   return filter(isMatch, recipes)
