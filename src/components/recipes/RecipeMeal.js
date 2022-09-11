@@ -6,9 +6,9 @@ import RecipeMention from '../../components/recipes/RecipeMention'
 import Link from '@mui/material/Link'
 
 export default function RecipeMeal(props) {
-  const { text, linkify } = props
+  const { text, linkify, ingredients } = props
 
-  if (isUuid(text)) return <RecipeMention id={text} />
+  if (isUuid(text)) return <RecipeMention id={text} ingredients={ingredients} />
 
   if (text.startsWith('http'))
     return (

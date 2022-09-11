@@ -7,9 +7,10 @@ import { db } from '../../util/firebase'
 import Alert from '@mui/material/Alert'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
+import { grey } from '@mui/material/colors'
 
 export default function RecipeMention(props) {
-  const { id, style } = props
+  const { id, style, ingredients } = props
 
   const [recipe, loading, error] = useObjectVal(ref(db, 'recipes/' + id))
 
@@ -17,6 +18,9 @@ export default function RecipeMention(props) {
     return <Alert severity="error">Could not load recipe</Alert>
 
   if (loading) return <Skeleton />
+
+  const showIngredients =
+    ingredients === true && Array.isArray(recipe.ingredients)
 
   return (
     <Typography
@@ -31,6 +35,21 @@ export default function RecipeMention(props) {
       }}
     >
       {recipe.name}
+      {showIngredients && (
+        <Typography
+          style={{
+            fontSize: '0.75rem',
+            textDecoration: 'none',
+            color: grey[600],
+            ...(style || {}),
+          }}
+        >
+          {recipe.ingredients
+            .map((i) => i.text)
+            .filter(Boolean)
+            .join(', ')}
+        </Typography>
+      )}
     </Typography>
   )
 }

@@ -113,7 +113,11 @@ export default function ViewMealPlan() {
                           <TableCell
                             sx={{ p: 0.75, pr: 0, whiteSpace: 'pre-line' }}
                           >
-                            <RecipeMeal text={day[meal]} linkify={true} />
+                            <RecipeMeal
+                              text={day[meal]}
+                              linkify={true}
+                              ingredients={true}
+                            />
                           </TableCell>
                         </TableRow>
                       )
