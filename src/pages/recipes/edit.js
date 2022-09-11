@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -88,14 +89,28 @@ export default function EditRecipe() {
             fullWidth
             sx={{ mb: 3 }}
           />
-          <TextField
-            label="Time (minutes)"
-            name="time"
-            defaultValue={recipe.time}
-            variant="standard"
-            fullWidth
-            sx={{ mb: 3 }}
-          />
+          <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid item xs={6}>
+              <TextField
+                label="Persons"
+                name="persons"
+                defaultValue={recipe.persons}
+                variant="standard"
+                fullWidth
+                sx={{ mb: 3 }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Time (minutes)"
+                name="time"
+                defaultValue={recipe.time}
+                variant="standard"
+                fullWidth
+                sx={{ mb: 3 }}
+              />
+            </Grid>
+          </Grid>
           <TextField
             label="Tags (separated by spaces)"
             name="tags"
@@ -217,6 +232,7 @@ export const formDataToUpdateSpec = (id, fd, recipe) => {
 
   // Simple fields
   if (fd.get('name')) ops[`recipes/${id}/name`] = fd.get('name')
+  if (fd.get('persons')) ops[`recipes/${id}/persons`] = fd.get('persons')
   if (fd.get('time')) ops[`recipes/${id}/time`] = fd.get('time')
   if (fd.get('notes')) ops[`recipes/${id}/notes`] = fd.get('notes')
   if (fd.get('source')) ops[`recipes/${id}/source`] = fd.get('source')

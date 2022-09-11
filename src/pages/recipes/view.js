@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography'
 import TimeIcon from '@mui/icons-material/AccessTime'
 import BackIcon from '@mui/icons-material/ArrowBackIosNew'
 import EditIcon from '@mui/icons-material/Edit'
+import GroupIcon from '@mui/icons-material/Group'
 import AddToListIcon from '@mui/icons-material/PlaylistAdd'
 
 export default function ViewRecipe() {
@@ -127,6 +128,21 @@ export default function ViewRecipe() {
 
           {(recipe.time || recipe.tags) && (
             <Box sx={{ mb: 2 }}>
+              {recipe.persons && (
+                <Chip
+                  icon={
+                    <GroupIcon
+                      fontSize="small"
+                      sx={{ mr: 0.5, verticalAlign: 'bottom' }}
+                    />
+                  }
+                  label={`${recipe.persons}p`}
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  sx={{ mt: 1, mr: 1, verticalAlign: 'bottom' }}
+                />
+              )}
               {recipe.time && (
                 <Chip
                   icon={

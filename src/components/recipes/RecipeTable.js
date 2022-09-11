@@ -62,6 +62,7 @@ export default function RecipeTable(props) {
                 >
                   <Typography variant="subtitle2" color="text.primary">
                     {recipe.name}
+                    {recipe.persons && ` (${recipe.persons}p)`}
                   </Typography>
                 </RouterLink>
               </TableCell>

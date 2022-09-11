@@ -35,6 +35,7 @@ export default function RecipeMention(props) {
       }}
     >
       {recipe.name}
+      {recipe.persons && ` (${recipe.persons}p)`}
       {showIngredients && (
         <Typography
           style={{
