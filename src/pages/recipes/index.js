@@ -17,7 +17,7 @@ import { useListVals } from 'react-firebase-hooks/database'
 import { v4 as uuid } from 'uuid'
 
 import { db } from '../../util/firebase'
-import { activeSortedRecipes, findRecipe } from '../../util/sorting'
+import { activeSortedRecipes, findRecipe, search } from '../../util/sorting'
 
 import ConfirmDialog from '../../components/confirm-dialog'
 import RecipeTable from '../../components/recipes/RecipeTable'
@@ -27,9 +27,14 @@ import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import FormControl from '@mui/material/FormControl'
+import InputAdornment from '@mui/material/InputAdornment'
+import OutlinedInput from '@mui/material/OutlinedInput'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
+
+import SearchIcon from '@mui/icons-material/Search'
 
 export default function Recipes() {
   const [recipesList, recipesLoading, error] = useListVals(ref(db, 'recipes'))
@@ -113,7 +118,10 @@ export default function Recipes() {
         : concat(filters, [tag])
     )
 
-  const filteredRecipes = filterRecipesOnTags(filters, recipes)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const filteredRecipes = filterSearchRecipesOnTags(recipes, filters, query)
 
   const loading = recipesLoading || addLoading || deleteLoading
 
@@ -164,6 +172,8 @@ export default function Recipes() {
             filters={filters}
             filtersOpen={filtersOpen}
             setFiltersOpen={setFiltersOpen}
+            searchOpen={searchOpen}
+            setSearchOpen={setSearchOpen}
           />
           {filtersOpen && (
             <Stack direction="row" sx={{ ml: 2, mr: 2, flexWrap: 'wrap' }}>
@@ -178,6 +188,25 @@ export default function Recipes() {
                   sx={{ mr: 1, mb: 1, cursor: 'pointer' }}
                 />
               ))}
+            </Stack>
+          )}
+          {searchOpen && (
+            <Stack direction="row" sx={{ ml: 2, mr: 2, flexWrap: 'wrap' }}>
+              <FormControl variant="outlined" fullWidth sx={{ mt: 2, mb: 2 }}>
+                <OutlinedInput
+                  name="search"
+                  value={query}
+                  onChange={(evt) => setQuery(evt.target.value)}
+                  placeholder="Search..."
+                  size="small"
+                  variant="outlined"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Stack>
           )}
 
@@ -201,10 +230,16 @@ const allTags = pipe(
   sort((a, b) => a.localeCompare(b))
 )
 
-function filterRecipesOnTags(filters, recipes) {
-  if (!filters.length) return recipes
-  return filter(
-    (recipe) => intersection(recipe.tags || [], filters).length,
-    recipes
-  )
+function filterSearchRecipesOnTags(recipes, filters, query) {
+  let results = recipes
+
+  if (filters.length)
+    results = filter(
+      (recipe) => intersection(recipe.tags || [], filters).length,
+      recipes
+    )
+
+  if (query) results = search(results, query)
+
+  return results
 }

@@ -1,4 +1,4 @@
-import { activeSortedShoppingList, isCurrentMealPlan } from './sorting'
+import { activeSortedShoppingList, isCurrentMealPlan, search } from './sorting'
 import { DateTime } from 'luxon'
 
 describe('activeSortedShoppingList()', () => {
@@ -155,4 +155,37 @@ describe('isCurrentMealPlan()', () => {
     expect(result).toEqual(false)
   })
 })
-1
+
+describe('search', () => {
+  it('filters a list on name', () => {
+    const xs = [{ name: 'foo' }, { name: 'bar' }, { name: 'baz' }]
+    const ys = search(xs, 'bar')
+    expect(ys).toEqual([{ name: 'bar' }])
+  })
+
+  it('does partial matching on `name`', () => {
+    const xs = [
+      { name: 'foo zab' },
+      { name: 'foo bar baz' },
+      { name: ' foo baz' },
+    ]
+    const ys = search(xs, 'bar')
+    expect(ys).toEqual([{ name: 'foo bar baz' }])
+  })
+
+  it('does partial matching on `tags`', () => {
+    const xs = [
+      { name: 'foo zab', tags: 'food' },
+      { name: 'foo bar baz', tags: 'nice-food' },
+      { name: ' foo baz', tags: 'dinner pasta' },
+    ]
+    const ys = search(xs, 'dinner')
+    expect(ys).toEqual([{ name: ' foo baz', tags: 'dinner pasta' }])
+  })
+
+  it('does case-insensitive matching on `name`', () => {
+    const xs = [{ name: 'Foo' }, { name: 'bAR baz' }, { name: 'foo baz' }]
+    const ys = search(xs, 'bar')
+    expect(ys).toEqual([{ name: 'bAR baz' }])
+  })
+})

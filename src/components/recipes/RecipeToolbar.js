@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add'
 import MealPlanIcon from '@mui/icons-material/CalendarMonth'
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import SearchIcon from '@mui/icons-material/Search'
 
 export default function RecipeToolbar(props) {
   const {
@@ -22,6 +23,8 @@ export default function RecipeToolbar(props) {
     filters,
     filtersOpen,
     setFiltersOpen,
+    searchOpen,
+    setSearchOpen,
   } = props
 
   return (
@@ -69,6 +72,12 @@ export default function RecipeToolbar(props) {
                   filtersOpen ? 'primary' : filters.length ? 'primary' : ''
                 }
               />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Search">
+            <IconButton onClick={() => setSearchOpen(!searchOpen)}>
+              <SearchIcon color={searchOpen ? 'primary' : ''} />
             </IconButton>
           </Tooltip>
         </>

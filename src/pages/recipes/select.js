@@ -6,7 +6,11 @@ import { useListVals, useObjectVal } from 'react-firebase-hooks/database'
 import { Link as RouterLink, useParams } from 'react-router-dom'
 
 import { db } from '../../util/firebase'
-import { activeSortedRecipes, sortedMealplanDays } from '../../util/sorting'
+import {
+  activeSortedRecipes,
+  search,
+  sortedMealplanDays,
+} from '../../util/sorting'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
@@ -136,17 +140,4 @@ export default function SelectRecipe() {
       )}
     </Paper>
   )
-}
-
-function search(recipes, q) {
-  if (q.length <= 2) return []
-
-  const isMatch = (recipe) => {
-    if (recipe.name && recipe.name.toLowerCase().includes(q.toLowerCase()))
-      return true
-    if (recipe.tags && recipe.tags.includes(q)) return true
-    return false
-  }
-
-  return filter(isMatch, recipes)
 }
