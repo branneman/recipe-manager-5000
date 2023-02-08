@@ -92,6 +92,23 @@ describe('activeSortedShoppingList()', () => {
       { id: 'x', order: 4, created: 4 },
     ])
   })
+
+  it('ignores undefined identifiers', () => {
+    const xs = [
+      { id: undefined, order: 1 },
+      { id: 'y', order: 2 },
+      { id: 'z', order: 3 },
+      { id: 'a', order: 4 },
+    ]
+
+    const ys = activeSortedShoppingList(xs)
+
+    expect(ys).toEqual([
+      { id: 'y', order: 1 },
+      { id: 'z', order: 2 },
+      { id: 'a', order: 3 },
+    ])
+  })
 })
 
 describe('isCurrentMealPlan()', () => {

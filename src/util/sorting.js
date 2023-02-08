@@ -3,6 +3,7 @@ import {
   addIndex,
   ascend,
   assoc,
+  complement,
   filter,
   find,
   map,
@@ -68,6 +69,9 @@ export const sortedMealplanDays = pipe(toPairs, sortBy(path(['1', 'day'])))
 
 export const activeSortedShoppingList = (xs) => {
   const f = pipe(
+    // Remove undefined/missing identifiers
+    filter(complement(propEq('id', undefined))),
+
     // 0. Uniq by id, delete duplicates
     uniqBy(prop('id')),
 
