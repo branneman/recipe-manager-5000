@@ -90,6 +90,8 @@ export default function ShoppingList() {
       const newList = updateOrder(fromOrder, toOrder, list)
       const ops = {}
       for (const item of newList) {
+        ops[`shopping-list/${item.id}/id`] = item.id
+        ops[`shopping-list/${item.id}/text`] = item.text
         ops[`shopping-list/${item.id}/order`] = item.order
       }
       await update(ref(db), ops)
@@ -107,6 +109,8 @@ export default function ShoppingList() {
       const listWithoutDeletedItem = filter(complement(propEq('id', id)), list)
       const ops = {}
       for (const [i, item] of toPairs(listWithoutDeletedItem)) {
+        ops[`shopping-list/${item.id}/id`] = item.id
+        ops[`shopping-list/${item.id}/text`] = item.text
         ops[`shopping-list/${item.id}/order`] = Number(i) + 1
       }
       await update(ref(db), ops)

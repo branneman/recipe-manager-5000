@@ -1,6 +1,5 @@
 import { ref, set } from 'firebase/database'
 import { DateTime } from 'luxon'
-import { filter } from 'ramda'
 import { useState } from 'react'
 import { useListVals, useObjectVal } from 'react-firebase-hooks/database'
 import { Link as RouterLink, useParams } from 'react-router-dom'
