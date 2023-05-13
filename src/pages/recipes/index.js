@@ -200,6 +200,9 @@ export default function Recipes() {
                   placeholder="Search..."
                   size="small"
                   variant="outlined"
+                  error={Boolean(
+                    query.length && query.length >= 1 && query.length <= 2
+                  )}
                   startAdornment={
                     <InputAdornment position="start">
                       <SearchIcon />
