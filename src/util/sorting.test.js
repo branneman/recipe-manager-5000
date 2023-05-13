@@ -205,4 +205,10 @@ describe('search', () => {
     const ys = search(xs, 'bar')
     expect(ys).toEqual([{ name: 'bAR baz' }])
   })
+
+  it('does diacritics-insensitive matching on `name`', () => {
+    const xs = [{ name: 'Bánh mì' }, { name: 'Phở bò' }, { name: 'Bún chả' }]
+    const ys = search(xs, 'pho')
+    expect(ys).toEqual([{ name: 'Phở bò' }])
+  })
 })
