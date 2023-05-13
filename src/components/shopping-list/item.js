@@ -19,6 +19,7 @@ export default function ShoppingListItem(props) {
     editingItem,
     setEditingItem,
     saveItem,
+    onEnter,
     moveItem,
     deleteItem,
   } = props
@@ -73,9 +74,7 @@ export default function ShoppingListItem(props) {
           name={`item-${item.id}`}
           defaultValue={item.text}
           onBlur={saveItem(item.id)}
-          onKeyPress={(evt) =>
-            callIfEnterKeyWasPressed(evt, () => evt.target.blur())
-          }
+          onKeyPress={(evt) => callIfEnterKeyWasPressed(evt, onEnter)}
           variant="standard"
           fullWidth
         />

@@ -146,6 +146,10 @@ export default function ShoppingList() {
                   editingItem={editingItem}
                   setEditingItem={setEditingItem}
                   saveItem={saveItem}
+                  onEnter={() => {
+                    console.log('onEnter')
+                    // addItem()
+                  }}
                   moveItem={moveItem}
                   deleteItem={deleteItem}
                 ></ShoppingListItem>

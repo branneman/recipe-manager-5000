@@ -43,7 +43,6 @@ export default function ViewRecipe() {
 
   const addIngredientsToShoppingList = async () => {
     const ingredientsToAdd = filter(prop('enabled'), recipe.ingredients)
-    console.log('ingredientsToAdd', ingredientsToAdd)
 
     for (const [i, ingredient] of toPairs(ingredientsToAdd)) {
       const id = uuid()
