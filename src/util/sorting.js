@@ -93,11 +93,17 @@ export const search = (recipes, q) => {
   if (q.length <= 2) return []
 
   const isMatch = (recipe) => {
-    if (recipe.name && recipe.name.toLowerCase().includes(q.toLowerCase()))
+    if (recipe.name && normalise(recipe.name).includes(normalise(q)))
       return true
-    if (recipe.tags && recipe.tags.includes(q)) return true
+    if (recipe.tags && recipe.tags.includes(normalise(q))) return true
     return false
   }
 
   return filter(isMatch, recipes)
 }
+
+const normalise = (s) =>
+  s
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/\p{Diacritic}/gu, '')
