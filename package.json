@@ -1,6 +1,6 @@
 {
   "name": "recipe-manager-5000",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "homepage": "https://branneman.github.io/recipe-manager-5000/",
   "scripts": {
     "start": "npx stmux -n -M -- [ 'BROWSER=none react-scripts start' .. 'react-scripts test' ]",
