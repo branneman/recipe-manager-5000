@@ -3,7 +3,7 @@
   "version": "0.17.0",
   "homepage": "https://branneman.github.io/recipe-manager-5000/",
   "scripts": {
-    "start": "BROWSER=none react-scripts start",
+    "start": "npx stmux -n -M -- [ 'BROWSER=none react-scripts start' .. 'react-scripts test' ]",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "postversion": "git push && git push --tags",
@@ -37,7 +37,8 @@
     "@testing-library/user-event": "^13.5.0",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "gh-pages": "^3.2.3",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "stmux": "^1.8.7"
   },
   "browserslist": {
     "production": [
