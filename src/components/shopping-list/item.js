@@ -63,7 +63,7 @@ export default function ShoppingListItem(props) {
       style={{ opacity: isDragging ? 0.5 : 1 }}
       sx={{ p: 0, mb: 1 }}
     >
-      <div ref={drag}>
+      <div ref={drag} style={{ margin: '0 0 -0.5em -0.5em', padding: '.5em' }}>
         <DragIndicatorIcon fontSize="small" sx={{ cursor: 'grab' }} />
       </div>
 
