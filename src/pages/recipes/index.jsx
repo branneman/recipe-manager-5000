@@ -65,7 +65,7 @@ export default function Recipes() {
       } else if (selectedIndex > 0) {
         return [].concat(
           selected.slice(0, selectedIndex),
-          selected.slice(selectedIndex + 1)
+          selected.slice(selectedIndex + 1),
         )
       }
       return []
@@ -115,7 +115,7 @@ export default function Recipes() {
     setFilters(
       filterIsActive(tag)
         ? filter(complement(equals(tag)), filters)
-        : concat(filters, [tag])
+        : concat(filters, [tag]),
     )
 
   const [searchOpen, setSearchOpen] = useState(false)
@@ -201,7 +201,7 @@ export default function Recipes() {
                   size="small"
                   variant="outlined"
                   error={Boolean(
-                    query.length && query.length >= 1 && query.length <= 2
+                    query.length && query.length >= 1 && query.length <= 2,
                   )}
                   startAdornment={
                     <InputAdornment position="start">
@@ -230,7 +230,7 @@ const allTags = pipe(
   map(prop('tags')),
   flatten,
   uniq,
-  sort((a, b) => a.localeCompare(b))
+  sort((a, b) => a.localeCompare(b)),
 )
 
 function filterSearchRecipesOnTags(recipes, filters, query) {
@@ -239,7 +239,7 @@ function filterSearchRecipesOnTags(recipes, filters, query) {
   if (filters.length)
     results = filter(
       (recipe) => intersection(recipe.tags || [], filters).length,
-      recipes
+      recipes,
     )
 
   if (query) results = search(results, query)

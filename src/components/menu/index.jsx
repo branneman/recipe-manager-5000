@@ -8,7 +8,7 @@ import { auth, db } from '../../util/firebase'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
@@ -46,42 +46,42 @@ export default function Menu(props) {
       onKeyDown={toggleMenu}
     >
       <List>
-        <ListItem button to="/recipes" component={RouterLink}>
+        <ListItemButton to="/recipes" component={RouterLink}>
           <ListItemIcon>
             <RecipesIcon />
           </ListItemIcon>
           <ListItemText primary="Recipes" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button to="/meal-plans" component={RouterLink}>
+        <ListItemButton to="/meal-plans" component={RouterLink}>
           <ListItemIcon>
             <MealPlanIcon />
           </ListItemIcon>
           <ListItemText primary="Meal Plans" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button to="/shopping-list" component={RouterLink}>
+        <ListItemButton to="/shopping-list" component={RouterLink}>
           <ListItemIcon>
             <ShoppingListIcon />
           </ListItemIcon>
           <ListItemText primary="Shopping list" />
-        </ListItem>
+        </ListItemButton>
 
         <Divider sx={{ mt: 2, mb: 2 }} />
 
-        <ListItem button onClick={() => setThemeMode(otherThemeMode)}>
+        <ListItemButton onClick={() => setThemeMode(otherThemeMode)}>
           <ListItemIcon>
             <ThemeModeIcon />
           </ListItemIcon>
           <ListItemText primary={`Switch to ${otherThemeMode} mode`} />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem button onClick={() => signOut(auth)}>
+        <ListItemButton onClick={() => signOut(auth)}>
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
           <ListItemText primary="Logout" />
-        </ListItem>
+        </ListItemButton>
       </List>
     </Box>
   )

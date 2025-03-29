@@ -106,7 +106,7 @@ export default function ShoppingList() {
       await remove(ref(db, 'shopping-list/' + id))
 
       // Reset all orders
-      const listWithoutDeletedItem = filter(complement(propEq('id', id)), list)
+      const listWithoutDeletedItem = filter(complement(propEq(id, 'id')), list)
       const ops = {}
       for (const [i, item] of toPairs(listWithoutDeletedItem)) {
         ops[`shopping-list/${item.id}/id`] = item.id
@@ -174,7 +174,7 @@ export default function ShoppingList() {
 
 export const updateOrder = (fromOrder, toOrder, xs) => {
   const start = slice(0, fromOrder - 1, xs)
-  const item = find(propEq('order', fromOrder), xs)
+  const item = find(propEq(fromOrder, 'order'), xs)
   const end = slice(fromOrder, Infinity, xs)
 
   const resetOrderProp = addIndex(map)((x, i) => assoc('order', i + 1, x))

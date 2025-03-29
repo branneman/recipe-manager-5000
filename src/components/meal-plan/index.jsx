@@ -6,8 +6,8 @@ import { Link as RouterLink } from 'react-router-dom'
 import { currentMealplanDay, isCurrentMealPlan } from '../../util/sorting'
 import { capitalise } from '../../util/string'
 
-import ConfirmDialog from '../../components/confirm-dialog'
-import RecipeMeal from '../../components/recipes/RecipeMeal'
+import ConfirmDialog from '../confirm-dialog'
+import RecipeMeal from '../recipes/RecipeMeal'
 
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -53,18 +53,18 @@ export default function MealPlan(props) {
       >
         <CardContent sx={{ pb: 0 }}>
           <Grid container spacing={1} sx={{ mb: 2 }}>
-            <Grid item xs={10}>
+            <Grid size={{ xs: 10 }}>
               <Typography
                 component={RouterLink}
                 to={`/meal-plans/${mealplan.id}`}
                 variant="h5"
-                color="text.primary"
+                color="textPrimary"
                 style={{ textDecoration: 'none' }}
               >
                 {mealplan.name}
               </Typography>
             </Grid>
-            <Grid item xs={2} sx={{ textAlign: 'right' }}>
+            <Grid size={{ xs: 2 }} sx={{ textAlign: 'right' }}>
               <Tooltip title={`Delete ${mealplan.name}`}>
                 <IconButton
                   className="is-delete-button"
@@ -77,18 +77,18 @@ export default function MealPlan(props) {
           </Grid>
 
           {mealplan.start && mealplan.days && values(mealplan.days).length && (
-            <Typography sx={{ mt: 2 }} color="text.secondary">
+            <Typography sx={{ mt: 2 }} color="textSecondary">
               {values(mealplan.days).length} day
               {values(mealplan.days).length > 1 ? 's' : ''}, starts at{' '}
               {DateTime.fromISO(mealplan.start).toLocaleString(
                 DateTime.DATE_HUGE,
-                { locale: 'gb' }
+                { locale: 'gb' },
               )}
             </Typography>
           )}
 
           {(!mealplan.start || !mealplan.days) && (
-            <Typography sx={{ mt: 2 }} color="text.secondary">
+            <Typography sx={{ mt: 2 }} color="textSecondary">
               No start date or days added yet
             </Typography>
           )}
@@ -127,7 +127,7 @@ export default function MealPlan(props) {
                             <RecipeMeal text={currentDay[meal]} />
                           </TableCell>
                         </TableRow>
-                      )
+                      ),
                   )}
                 </TableBody>
               </Table>

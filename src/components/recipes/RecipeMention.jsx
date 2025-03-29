@@ -26,7 +26,7 @@ export default function RecipeMention(props) {
     <Typography
       component={RouterLink}
       to={`/recipe/${recipe.id}`}
-      color="text.primary"
+      color="textPrimary"
       style={{
         fontSize: '0.875rem',
         fontWeight: 'bold',

@@ -16,7 +16,7 @@ import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Link from '@mui/material/Link'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import Paper from '@mui/material/Paper'
 import Skeleton from '@mui/material/Skeleton'
 import Tooltip from '@mui/material/Tooltip'
@@ -32,10 +32,10 @@ export default function ViewRecipe() {
   const { id } = useParams()
 
   const [recipe, recipeLoading, recipeError] = useObjectVal(
-    ref(db, 'recipes/' + id)
+    ref(db, 'recipes/' + id),
   )
   const [rawList, listLoading, listError] = useListVals(
-    ref(db, 'shopping-list')
+    ref(db, 'shopping-list'),
   )
   const list = activeSortedShoppingList(rawList)
   const loading = recipeLoading || listLoading
@@ -43,7 +43,6 @@ export default function ViewRecipe() {
 
   const addIngredientsToShoppingList = async () => {
     const ingredientsToAdd = filter(prop('enabled'), recipe.ingredients)
-    console.log('ingredientsToAdd', ingredientsToAdd)
 
     for (const [i, ingredient] of toPairs(ingredientsToAdd)) {
       const id = uuid()
@@ -98,7 +97,7 @@ export default function ViewRecipe() {
       {!error && !loading && recipe && (
         <Box sx={{ p: 2 }}>
           <Grid container spacing={1}>
-            <Grid item xs={2}>
+            <Grid size={{ xs: 2 }}>
               <Tooltip title="Back to Recipes">
                 <IconButton
                   to="/recipes"
@@ -109,12 +108,12 @@ export default function ViewRecipe() {
                 </IconButton>
               </Tooltip>
             </Grid>
-            <Grid item xs={8}>
+            <Grid size={{ xs: 8 }}>
               <Typography variant="h6" sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
                 {recipe.name}
               </Typography>
             </Grid>
-            <Grid item xs={2} sx={{ textAlign: 'right' }}>
+            <Grid size={{ xs: 2 }} sx={{ textAlign: 'right' }}>
               <Tooltip title="Edit recipe">
                 <IconButton
                   component={RouterLink}
@@ -174,12 +173,12 @@ export default function ViewRecipe() {
 
           {recipe.ingredients && recipe.ingredients.length && (
             <Grid container spacing={1} sx={{ mt: 3 }}>
-              <Grid item xs={10}>
+              <Grid size={{ xs: 10 }}>
                 <Typography variant="subtitle2" sx={{ display: 'block' }}>
                   Ingredients
                 </Typography>
               </Grid>
-              <Grid item xs={2} sx={{ mt: -1, textAlign: 'right' }}>
+              <Grid size={{ xs: 2 }} sx={{ mt: -1, textAlign: 'right' }}>
                 <Tooltip title="Add to shoppinglist">
                   <IconButton onClick={addIngredientsToShoppingList}>
                     <AddToListIcon fontSize="small" />
@@ -188,14 +187,18 @@ export default function ViewRecipe() {
               </Grid>
               <List>
                 {recipe.ingredients.map((ingredient, i) => (
-                  <ListItem
+                  <ListItemButton
                     key={i}
-                    sx={{ p: 0, pl: 1, cursor: 'pointer' }}
-                    disabled={!ingredient.enabled}
+                    sx={{
+                      p: 0,
+                      pl: 0,
+                      cursor: 'pointer',
+                      opacity: ingredient.enabled ? 1 : 0.5,
+                    }}
                     onClick={toggleIngredient(i)}
                   >
                     {ingredient.text}
-                  </ListItem>
+                  </ListItemButton>
                 ))}
               </List>
             </Grid>
@@ -206,24 +209,23 @@ export default function ViewRecipe() {
               <Typography variant="subtitle2" sx={{ mt: 2, mb: 0 }}>
                 Steps
               </Typography>
-              <List>
+              <List sx={{ pl: 3.5 }}>
                 {recipe.steps.map((step, i) => (
-                  <ListItem
+                  <ListItemButton
                     key={i}
                     sx={{
-                      ml: 2,
                       p: 0,
                       pb: 1,
                       pr: 1,
                       display: 'list-item',
                       listStyleType: 'decimal',
                       cursor: 'pointer',
+                      opacity: step.enabled ? 1 : 0.5,
                     }}
-                    disabled={!step.enabled}
                     onClick={toggleStep(i)}
                   >
                     {step.text}
-                  </ListItem>
+                  </ListItemButton>
                 ))}
               </List>
             </>

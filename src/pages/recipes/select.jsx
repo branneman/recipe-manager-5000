@@ -32,13 +32,13 @@ export default function SelectRecipe() {
   const { id: mealplanId, day: dayNr, meal } = useParams()
 
   const [mealplan, mealplanLoading, mealplanError] = useObjectVal(
-    ref(db, 'meal-plans/' + mealplanId)
+    ref(db, 'meal-plans/' + mealplanId),
   )
   const days =
     mealplan && mealplan.days ? sortedMealplanDays(mealplan.days) : null
 
   const [recipesList, recipesLoading, recipesError] = useListVals(
-    ref(db, 'recipes')
+    ref(db, 'recipes'),
   )
   const recipes = activeSortedRecipes(recipesList)
 

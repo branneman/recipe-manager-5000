@@ -1,5 +1,6 @@
 import { activeSortedShoppingList, isCurrentMealPlan, search } from './sorting'
 import { DateTime } from 'luxon'
+import { describe, expect, it } from 'vitest'
 
 describe('activeSortedShoppingList()', () => {
   it('returns a list of unique items, by id', () => {

@@ -60,7 +60,7 @@ export default function RecipeTable(props) {
                   to={`/recipe/${recipe.id}`}
                   style={{ textDecoration: 'none' }}
                 >
-                  <Typography variant="subtitle2" color="text.primary">
+                  <Typography variant="subtitle2" color="textPrimary">
                     {recipe.name}
                     {recipe.persons && ` (${recipe.persons}p)`}
                   </Typography>

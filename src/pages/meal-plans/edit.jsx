@@ -39,7 +39,7 @@ export default function EditMealPlan() {
   const { id } = useParams()
 
   const [mealplan, mealplanLoading, error] = useObjectVal(
-    ref(db, 'meal-plans/' + id)
+    ref(db, 'meal-plans/' + id),
   )
   const days =
     mealplan && mealplan.days ? sortedMealplanDays(mealplan.days) : null
@@ -162,7 +162,7 @@ export default function EditMealPlan() {
       <Paper sx={{ width: '100%' }}>
         <Box sx={{ p: 2 }}>
           <Grid container spacing={1} sx={{ mb: 2 }}>
-            <Grid item xs={2}>
+            <Grid size={{ xs: 2 }}>
               <Tooltip title="Back to Meal Plans">
                 <IconButton
                   to={`/meal-plans/${id}`}
@@ -174,7 +174,7 @@ export default function EditMealPlan() {
                 </IconButton>
               </Tooltip>
             </Grid>
-            <Grid item xs={10}>
+            <Grid size={{ xs: 10 }}>
               <Typography variant="h6" sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
                 Edit Meal Plan
               </Typography>
@@ -217,7 +217,7 @@ export default function EditMealPlan() {
             days.map(([id, day]) => (
               <Box key={id}>
                 <Grid container spacing={1} sx={{ mt: 4, mb: 1 }}>
-                  <Grid item xs={10}>
+                  <Grid size={{ xs: 10 }}>
                     <Typography variant="h5" component="div">
                       Day {day.day + 1}:{' '}
                       {DateTime.fromISO(mealplan.start)
@@ -225,7 +225,7 @@ export default function EditMealPlan() {
                         .toFormat('ccc dd LLL')}
                     </Typography>
                   </Grid>
-                  <Grid item xs={2} sx={{ textAlign: 'right' }}>
+                  <Grid size={{ xs: 2 }} sx={{ textAlign: 'right' }}>
                     <Tooltip title={`Delete day ${day.day + 1}`}>
                       <IconButton
                         onClick={() => {
@@ -298,7 +298,7 @@ export default function EditMealPlan() {
           )}
 
           <Grid container spacing={1} sx={{ mt: 2 }}>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <Button
                 onClick={addDay}
                 startIcon={<AddToListIcon />}
@@ -307,7 +307,7 @@ export default function EditMealPlan() {
                 Add a day
               </Button>
             </Grid>
-            <Grid item xs={6} sx={{ textAlign: 'right' }}>
+            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
               <Button
                 component={RouterLink}
                 to={`/meal-plans/${mealplan.id}`}

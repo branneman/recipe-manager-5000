@@ -36,7 +36,7 @@ export default function RecipeToolbar(props) {
           bgcolor: (theme) =>
             alpha(
               theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
+              theme.palette.action.activatedOpacity,
             ),
         }),
       }}
@@ -87,8 +87,7 @@ export default function RecipeToolbar(props) {
       {numSelected > 0 && (
         <>
           <Typography
-            sx={{ flex: '1 1 100%' }}
-            color="inherit"
+            sx={{ flex: '1 1 100%', color: 'inherit' }}
             variant="subtitle1"
             component="div"
           >

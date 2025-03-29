@@ -51,7 +51,7 @@ export default function EditRecipe() {
     setIngredients(recipe.ingredients || [])
   const addIngredient = () =>
     setIngredients(
-      concat(ingredients, [{ id: uuid(), text: '', enabled: true }])
+      concat(ingredients, [{ id: uuid(), text: '', enabled: true }]),
     )
   const deleteIngredient = (key) => () =>
     setIngredients(remove(key, 1, ingredients))
@@ -90,7 +90,7 @@ export default function EditRecipe() {
             sx={{ mb: 3 }}
           />
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField
                 label="Persons"
                 name="persons"
@@ -100,7 +100,7 @@ export default function EditRecipe() {
                 sx={{ mb: 3 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField
                 label="Time (minutes)"
                 name="time"

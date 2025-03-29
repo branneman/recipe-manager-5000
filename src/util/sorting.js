@@ -20,10 +20,10 @@ import {
 
 export const activeSortedRecipes = pipe(
   uniqBy(prop('id')),
-  sortBy(prop('name'))
+  sortBy(prop('name')),
 )
 
-export const findRecipe = (id, recipes) => find(propEq('id', id), recipes)
+export const findRecipe = (id, recipes) => find(propEq(id, 'id'), recipes)
 
 export const getCurrentMealPlans = (now) =>
   filter((mealplan) => isCurrentMealPlan(mealplan, now))
@@ -53,7 +53,7 @@ export const currentMealplanDay = (mealplan, now) => {
     sortedMealplanDays,
     map(prop('1')),
     map(addDateProp),
-    find(propEq('date', now.toISODate()))
+    find(propEq(now.toISODate(), 'date')),
   )
   return f(mealplan)
 }
@@ -62,7 +62,7 @@ export const activeSortedMealPlans = (now) =>
   pipe(
     filter((x) => !isCurrentMealPlan(x, now)),
     uniqBy(prop('id')),
-    sortBy(prop('name'))
+    sortBy(prop('name')),
   )
 
 export const sortedMealplanDays = pipe(toPairs, sortBy(path(['1', 'day'])))
@@ -70,7 +70,7 @@ export const sortedMealplanDays = pipe(toPairs, sortBy(path(['1', 'day'])))
 export const activeSortedShoppingList = (xs) => {
   const f = pipe(
     // Remove undefined/missing identifiers
-    filter(complement(propEq('id', undefined))),
+    filter(complement(propEq(undefined, 'id'))),
 
     // 0. Uniq by id, delete duplicates
     uniqBy(prop('id')),
@@ -83,7 +83,7 @@ export const activeSortedShoppingList = (xs) => {
     sortWith([ascend(prop('order')), ascend(prop('created'))]),
 
     // 3. Overwrite all orders with sequenced numbers, 1-indexed
-    addIndex(map)((curr, i) => assoc('order', i + 1, curr))
+    addIndex(map)((curr, i) => assoc('order', i + 1, curr)),
   )
 
   return f(xs)

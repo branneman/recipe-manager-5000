@@ -47,5 +47,5 @@ root.render(
         </HashRouter>
       </DndProvider>
     </Auth>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

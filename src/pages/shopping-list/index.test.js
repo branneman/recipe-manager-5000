@@ -1,4 +1,5 @@
 import { updateOrder } from './index'
+import { describe, expect, it } from 'vitest'
 
 describe('ShoppingList', () => {
   describe('updateOrder()', () => {

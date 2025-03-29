@@ -31,7 +31,7 @@ export default function Login() {
     const credentials = new FormData(event.currentTarget)
     signInWithEmailAndPassword(
       credentials.get('email'),
-      credentials.get('password')
+      credentials.get('password'),
     )
   }
 

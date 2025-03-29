@@ -52,7 +52,7 @@ export default function ViewMealPlan() {
     <Paper sx={{ width: '100%' }}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
-          <Grid item xs={2}>
+          <Grid size={{ xs: 2 }}>
             <Tooltip title="Back to Meal Plans">
               <IconButton
                 to="/meal-plans"
@@ -63,12 +63,12 @@ export default function ViewMealPlan() {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs={8}>
+          <Grid size={{ xs: 8 }}>
             <Typography variant="h6" sx={{ mt: 0.5, mb: 1, ml: -1, mr: 1 }}>
               {mealplan.name}
             </Typography>
           </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'right' }}>
+          <Grid size={{ xs: 2 }} sx={{ textAlign: 'right' }}>
             <Tooltip title="Edit Meal Plan">
               <IconButton
                 component={RouterLink}
@@ -120,7 +120,7 @@ export default function ViewMealPlan() {
                             />
                           </TableCell>
                         </TableRow>
-                      )
+                      ),
                   )}
                 </TableBody>
               </Table>
