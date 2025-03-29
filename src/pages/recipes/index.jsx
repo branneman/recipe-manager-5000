@@ -12,7 +12,7 @@ import {
   sort,
   uniq,
 } from 'ramda'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useListVals } from 'react-firebase-hooks/database'
 import { v4 as uuid } from 'uuid'
 
@@ -107,7 +107,6 @@ export default function Recipes() {
 
   const handleAddToMealPlan = () => {}
 
-  // prettier-ignore
   const [filters, setFilters] = useState([])
   const [filtersOpen, setFiltersOpen] = useState(false)
   const filterIsActive = (tag) => filters.includes(tag)
@@ -120,6 +119,12 @@ export default function Recipes() {
 
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const searchInputRef = useRef(null)
+  useEffect(() => {
+    if (searchOpen && searchInputRef.current) {
+      searchInputRef.current.focus()
+    }
+  }, [searchOpen])
 
   const filteredRecipes = filterSearchRecipesOnTags(recipes, filters, query)
 
@@ -194,6 +199,7 @@ export default function Recipes() {
             <Stack direction="row" sx={{ ml: 2, mr: 2, flexWrap: 'wrap' }}>
               <FormControl variant="outlined" fullWidth sx={{ mt: 2, mb: 2 }}>
                 <OutlinedInput
+                  inputRef={searchInputRef}
                   name="search"
                   value={query}
                   onChange={(evt) => setQuery(evt.target.value)}
