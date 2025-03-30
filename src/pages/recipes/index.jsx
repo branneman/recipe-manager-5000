@@ -40,7 +40,13 @@ export default function Recipes() {
   const [recipesList, recipesLoading, error] = useListVals(ref(db, 'recipes'))
   const recipes = activeSortedRecipes(recipesList)
 
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState(() => {
+    const saved = sessionStorage.getItem('recipeSelected')
+    return saved ? JSON.parse(saved) : []
+  })
+  useEffect(() => {
+    sessionStorage.setItem('recipeSelected', JSON.stringify(selected))
+  }, [selected])
   const isSelected = (id) => selected.indexOf(id) !== -1
 
   const handleSelectAllClick = (event) => {
@@ -107,8 +113,38 @@ export default function Recipes() {
 
   const handleAddToMealPlan = () => {}
 
-  const [filters, setFilters] = useState([])
-  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [filters, setFilters] = useState(() => {
+    const saved = sessionStorage.getItem('recipeFilters')
+    return saved ? JSON.parse(saved) : []
+  })
+  useEffect(() => {
+    sessionStorage.setItem('recipeFilters', JSON.stringify(filters))
+  }, [filters])
+
+  const [filtersOpen, setFiltersOpen] = useState(() => {
+    const saved = sessionStorage.getItem('recipeFiltersOpen')
+    return saved ? JSON.parse(saved) : false
+  })
+  useEffect(() => {
+    sessionStorage.setItem('recipeFiltersOpen', JSON.stringify(filtersOpen))
+  }, [filtersOpen])
+
+  const [searchOpen, setSearchOpen] = useState(() => {
+    const saved = sessionStorage.getItem('recipeSearchOpen')
+    return saved ? JSON.parse(saved) : false
+  })
+  useEffect(() => {
+    sessionStorage.setItem('recipeSearchOpen', JSON.stringify(searchOpen))
+  }, [searchOpen])
+
+  const [query, setQuery] = useState(() => {
+    const saved = sessionStorage.getItem('recipeSearchQuery')
+    return saved || ''
+  })
+  useEffect(() => {
+    sessionStorage.setItem('recipeSearchQuery', query)
+  }, [query])
+
   const filterIsActive = (tag) => filters.includes(tag)
   const toggleFilter = (tag) =>
     setFilters(
@@ -117,8 +153,6 @@ export default function Recipes() {
         : concat(filters, [tag]),
     )
 
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [query, setQuery] = useState('')
   const searchInputRef = useRef(null)
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
