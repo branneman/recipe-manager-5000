@@ -1,6 +1,6 @@
 {
   "name": "recipe-manager-5000",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "homepage": "https://branneman.github.io/recipe-manager-5000/",
   "type": "module",
   "scripts": {
