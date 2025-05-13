@@ -46,13 +46,13 @@ export default function EditMealPlan() {
 
   const [saveLoading, setSaveLoading] = useState(false)
 
-  const [startDate, setStartDate] = useState(null)
+  const [startDate, setStartDate] = useState(DateTime.now())
   if (mealplan && mealplan.start && startDate === null)
     setStartDate(mealplan.start)
   const saveStartDate = async (value) => {
     setSaveLoading(true)
     try {
-      await set(ref(db, `meal-plans/${mealplan.id}/start`), value)
+      await set(ref(db, `meal-plans/${mealplan.id}/start`), value.toISODate())
     } catch (err) {
       // todo: report error
     }
@@ -198,10 +198,10 @@ export default function EditMealPlan() {
             <DatePicker
               label="First day"
               value={startDate}
-              onChange={(d) => d && saveStartDate(d.toISODate())}
-              renderInput={(params) => (
-                <TextField {...params} variant="standard" fullWidth />
-              )}
+              onChange={(d) => saveStartDate(d)}
+              slotProps={{
+                textField: { variant: 'standard', fullWidth: true },
+              }}
             />
           </LocalizationProvider>
 
