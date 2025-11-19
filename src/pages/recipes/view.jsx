@@ -192,6 +192,7 @@ export default function ViewRecipe() {
                     sx={{
                       p: 0,
                       pl: 0,
+                      pb: 1,
                       cursor: 'pointer',
                       opacity: ingredient.enabled ? 1 : 0.5,
                     }}
