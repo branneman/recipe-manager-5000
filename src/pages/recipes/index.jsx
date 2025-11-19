@@ -6,10 +6,12 @@ import {
   filter,
   flatten,
   intersection,
+  not,
   map,
   pipe,
   prop,
   sort,
+  trim,
   uniq,
 } from 'ramda'
 import { useState, useEffect, useRef } from 'react'
@@ -266,10 +268,13 @@ export default function Recipes() {
   )
 }
 
-const allTags = pipe(
+export const allTags = pipe(
   map(prop('tags')),
   flatten,
+  filter((s) => not(equals(undefined, s))),
+  map(trim),
   uniq,
+  filter((s) => not(equals('', s))),
   sort((a, b) => a.localeCompare(b)),
 )
 
